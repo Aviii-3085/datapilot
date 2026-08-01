@@ -7,8 +7,9 @@ public `analyze()` function.
 
 import pandas as pd
 
+from ..analysis.models import DatasetSummary, MissingValueSummary
 from ..analysis.summary import generate_summary
-from ..analysis.models import DatasetSummary
+from ..analysis.missing import generate_missing_value_summary
 
 
 class Report:
@@ -32,3 +33,9 @@ class Report:
         Return a summary of the dataset.
         """
         return generate_summary(self._df)
+
+    def missing_values(self) -> MissingValueSummary:
+        """
+        Return missing value statistics for the dataset.
+        """
+        return generate_missing_value_summary(self._df)
