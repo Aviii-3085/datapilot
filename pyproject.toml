@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "datapilot"
+version = "0.1.0"
+description = "An intelligent Python library for exploratory data analysis, dataset interpretation, and actionable machine learning recommendations."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+
+authors = [
+    { name = "Avishkar Gopale" }
+]
+
+keywords = [
+    "eda",
+    "data-analysis",
+    "machine-learning",
+    "python",
+    "analytics",
+    "data-science"
+]
+
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+dependencies = [
+    "pandas>=2.2",
+    "numpy>=2.0",
+    "scipy>=1.14",
+    "matplotlib>=3.9",
+    "plotly>=6.0",
+    "jinja2>=3.1",
+    "rich>=14.0",
+    "typer>=0.16"
+]
+
+[project.urls]
+Homepage = "https://github.com/https://github.com/Aviii-3085/Datapilot"
+Repository = "https://github.com/https://github.com/Aviii-3085/Datapilot"
+Issues = "https://github.com/https://github.com/Aviii-3085/Datapilot/issues"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
