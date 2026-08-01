@@ -1,10 +1,9 @@
 """
 Datapilot
 
-An intelligent Python library for exploratory data analysis,
-dataset interpretation, and actionable machine learning recommendations.
+An intelligent Python library for exploratory data analysis.
 """
 
-from .analyze import analyze
+from .api.analyze import analyze
 
 __all__ = ["analyze"]
