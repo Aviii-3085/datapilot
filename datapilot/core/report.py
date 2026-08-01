@@ -7,9 +7,14 @@ public `analyze()` function.
 
 import pandas as pd
 
-from ..analysis.models import DatasetSummary, MissingValueSummary
+from ..analysis.models import (
+    DatasetSummary,
+    MissingValueSummary,
+    DuplicateSummary,
+)
 from ..analysis.summary import generate_summary
 from ..analysis.missing import generate_missing_value_summary
+from ..analysis.duplicate import generate_duplicate_summary
 
 
 class Report:
@@ -39,3 +44,9 @@ class Report:
         Return missing value statistics for the dataset.
         """
         return generate_missing_value_summary(self._df)
+
+    def duplicates(self) -> DuplicateSummary:
+        """
+        Return duplicate row statistics for the dataset.
+        """
+        return generate_duplicate_summary(self._df)

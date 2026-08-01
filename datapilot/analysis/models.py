@@ -27,3 +27,13 @@ class MissingValueSummary:
     missing_percentage: float
     columns_with_missing: dict[str, int]
     columns_without_missing: list[str]
+
+
+@dataclass(slots=True)
+class DuplicateSummary:
+    """
+    Summary information about duplicate rows in a dataset.
+    """
+
+    total_duplicates: int
+    duplicate_percentage: float
