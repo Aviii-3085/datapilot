@@ -13,6 +13,9 @@ from ..analysis.correlation import (
 from ..analysis.datatype import generate_data_type_summary
 from ..analysis.duplicate import generate_duplicate_summary
 from ..analysis.health import generate_dataset_health
+from ..analysis.insights import (
+    generate_insight_summary,
+)
 from ..analysis.missing import generate_missing_value_summary
 from ..analysis.models import (
     CorrelationSummary,
@@ -20,6 +23,7 @@ from ..analysis.models import (
     DatasetSummary,
     DataTypeSummary,
     DuplicateSummary,
+    InsightSummary,
     MissingValueSummary,
     OutlierSummary,
     StatisticsSummary,
@@ -92,3 +96,9 @@ class Report:
         Return correlation analysis.
         """
         return generate_correlation_summary(self._df)
+
+    def insights(self) -> InsightSummary:
+        """
+        Return generated dataset insights.
+        """
+        return generate_insight_summary(self._df)

@@ -97,3 +97,12 @@ class CorrelationSummary:
     correlation_matrix: pd.DataFrame
     strong_positive_pairs: dict[str, float]
     strong_negative_pairs: dict[str, float]
+
+@dataclass(slots=True)
+class InsightSummary:
+    """
+    Summary of generated dataset insights.
+    """
+
+    insights: list[str]
+    recommendations: list[str]    
