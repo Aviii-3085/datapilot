@@ -7,11 +7,15 @@ public `analyze()` function.
 
 import pandas as pd
 
+from ..analysis.correlation import (
+    generate_correlation_summary,
+)
 from ..analysis.datatype import generate_data_type_summary
 from ..analysis.duplicate import generate_duplicate_summary
 from ..analysis.health import generate_dataset_health
 from ..analysis.missing import generate_missing_value_summary
 from ..analysis.models import (
+    CorrelationSummary,
     DatasetHealth,
     DatasetSummary,
     DataTypeSummary,
@@ -82,3 +86,9 @@ class Report:
         Return outlier statistics.
         """
         return generate_outlier_summary(self._df)
+
+    def correlation(self) -> CorrelationSummary:
+        """
+        Return correlation analysis.
+        """
+        return generate_correlation_summary(self._df)

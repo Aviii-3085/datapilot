@@ -4,6 +4,8 @@ Data models used by Datapilot analysis modules.
 
 from dataclasses import dataclass
 
+import pandas as pd
+
 
 @dataclass(slots=True)
 class DatasetSummary:
@@ -85,3 +87,13 @@ class OutlierSummary:
     outlier_percentage: float
     columns_with_outliers: dict[str, int]
     columns_without_outliers: list[str]
+
+@dataclass(slots=True)
+class CorrelationSummary:
+    """
+    Summary of correlation analysis.
+    """
+
+    correlation_matrix: pd.DataFrame
+    strong_positive_pairs: dict[str, float]
+    strong_negative_pairs: dict[str, float]
