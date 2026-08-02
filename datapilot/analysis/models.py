@@ -37,3 +37,30 @@ class DuplicateSummary:
 
     total_duplicates: int
     duplicate_percentage: float
+
+
+@dataclass(slots=True)
+class DataTypeSummary:
+    """
+    Summary information about dataset column types.
+    """
+
+    numeric_columns: list[str]
+    categorical_columns: list[str]
+    boolean_columns: list[str]
+    datetime_columns: list[str]
+
+
+@dataclass(slots=True)
+class DatasetHealth:
+    """
+    Overall health assessment of a dataset.
+    """
+
+    score: int
+    grade: str
+    status: str
+    ml_ready: bool
+    strengths: list[str]
+    weaknesses: list[str]
+    recommendations: list[str]

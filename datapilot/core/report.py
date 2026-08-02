@@ -7,14 +7,18 @@ public `analyze()` function.
 
 import pandas as pd
 
+from ..analysis.datatype import generate_data_type_summary
+from ..analysis.duplicate import generate_duplicate_summary
+from ..analysis.health import generate_dataset_health
+from ..analysis.missing import generate_missing_value_summary
 from ..analysis.models import (
+    DatasetHealth,
     DatasetSummary,
-    MissingValueSummary,
+    DataTypeSummary,
     DuplicateSummary,
+    MissingValueSummary,
 )
 from ..analysis.summary import generate_summary
-from ..analysis.missing import generate_missing_value_summary
-from ..analysis.duplicate import generate_duplicate_summary
 
 
 class Report:
@@ -50,3 +54,15 @@ class Report:
         Return duplicate row statistics for the dataset.
         """
         return generate_duplicate_summary(self._df)
+
+    def data_types(self) -> DataTypeSummary:
+        """
+        Return data type statistics for the dataset.
+        """
+        return generate_data_type_summary(self._df)
+
+    def dataset_health(self) -> DatasetHealth:
+        """
+        Return the overall health assessment of the dataset.
+        """
+        return generate_dataset_health(self._df)

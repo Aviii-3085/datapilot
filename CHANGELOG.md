@@ -10,6 +10,12 @@ The format is inspired by **Keep a Changelog**, and the project follows Semantic
 
 ### Added
 
+- Duplicate row analysis
+- Duplicate summary data model
+- Duplicate reporting through the `Report` interface
+
+### Added
+
 - Missing value analysis
 - Missing value summary data model
 - Missing value reporting through the `Report` interface

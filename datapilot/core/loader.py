@@ -7,6 +7,7 @@ and converting them into a pandas DataFrame.
 
 from pathlib import Path
 from typing import Any
+from typing import Any, cast
 
 import pandas as pd
 
@@ -17,23 +18,6 @@ EXCEL_EXTENSIONS = {".xlsx", ".xls"}
 def load_dataset(data: Any) -> pd.DataFrame:
     """
     Load a supported dataset into a pandas DataFrame.
-
-    Parameters
-    ----------
-    data : Any
-        A pandas DataFrame or a supported file path.
-
-    Returns
-    -------
-    pandas.DataFrame
-        The loaded dataset.
-
-    Raises
-    ------
-    TypeError
-        If the input type is unsupported.
-    ValueError
-        If the file extension is unsupported.
     """
 
     if isinstance(data, pd.DataFrame):
@@ -52,7 +36,7 @@ def _load_dataframe(dataframe: pd.DataFrame) -> pd.DataFrame:
     Return a copy of the provided DataFrame.
     """
 
-    return dataframe.copy()
+    return cast(pd.DataFrame, dataframe.copy(deep=True))
 
 
 def _load_file(path: Path) -> pd.DataFrame:

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "datapilot"
-version = "0.1.0"
-description = "An intelligent Python library for exploratory data analysis, dataset interpretation, and actionable machine learning recommendations."
+version = "0.1.0-alpha"
+description = "An intelligent dataset assessment library for Python."
 readme = "README.md"
 requires-python = ">=3.10"
 license = { file = "LICENSE" }
@@ -17,6 +17,7 @@ authors = [
 keywords = [
     "eda",
     "data-analysis",
+    "dataset-assessment",
     "machine-learning",
     "python",
     "analytics",
@@ -46,17 +47,39 @@ dependencies = [
     "typer>=0.16"
 ]
 
-[project.urls]
-Homepage = "https://github.com/https://github.com/Aviii-3085/Datapilot"
-Repository = "https://github.com/https://github.com/Aviii-3085/Datapilot"
-Issues = "https://github.com/https://github.com/Aviii-3085/Datapilot/issues"
+[project.optional-dependencies]
+dev = [
+    "black",
+    "ruff",
+    "mypy",
+    "pytest"
+]
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
+[project.urls]
+Homepage = "https://github.com/Aviii-3085/datapilot"
+Repository = "https://github.com/Aviii-3085/datapilot"
+Issues = "https://github.com/Aviii-3085/datapilot/issues"
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
 
 [tool.ruff]
 line-length = 88
 target-version = "py310"
 
 [tool.ruff.lint]
-select = ["E", "F", "I"]
+select = [
+    "E",
+    "F",
+    "I"
+]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests"
+]

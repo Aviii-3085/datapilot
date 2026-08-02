@@ -6,6 +6,7 @@ import pandas as pd
 
 from .models import MissingValueSummary
 
+
 def generate_missing_value_summary(
     dataframe: pd.DataFrame,
 ) -> MissingValueSummary:

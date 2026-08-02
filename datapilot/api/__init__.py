@@ -1,7 +1,5 @@
 """
-Datapilot
-
-An intelligent Python library for exploratory data analysis.
+Public API for Datapilot.
 """
 
 from .analyze import analyze
