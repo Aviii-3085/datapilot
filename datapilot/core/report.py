@@ -17,7 +17,9 @@ from ..analysis.models import (
     DataTypeSummary,
     DuplicateSummary,
     MissingValueSummary,
+    StatisticsSummary,
 )
+from ..analysis.statistics import generate_statistics_summary
 from ..analysis.summary import generate_summary
 
 
@@ -66,3 +68,9 @@ class Report:
         Return the overall health assessment of the dataset.
         """
         return generate_dataset_health(self._df)
+    def statistics(self) -> StatisticsSummary:
+       """
+       Return statistical summary.
+       """
+
+       return generate_statistics_summary(self._df)

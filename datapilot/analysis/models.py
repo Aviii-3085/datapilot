@@ -64,3 +64,11 @@ class DatasetHealth:
     strengths: list[str]
     weaknesses: list[str]
     recommendations: list[str]
+
+@dataclass(slots=True)
+class StatisticsSummary:
+    """
+    Statistical summary of numeric columns.
+    """
+
+    column_statistics: dict[str, dict[str, float]]
