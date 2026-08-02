@@ -17,8 +17,10 @@ from ..analysis.models import (
     DataTypeSummary,
     DuplicateSummary,
     MissingValueSummary,
+    OutlierSummary,
     StatisticsSummary,
 )
+from ..analysis.outliers import generate_outlier_summary
 from ..analysis.statistics import generate_statistics_summary
 from ..analysis.summary import generate_summary
 
@@ -68,9 +70,15 @@ class Report:
         Return the overall health assessment of the dataset.
         """
         return generate_dataset_health(self._df)
-    def statistics(self) -> StatisticsSummary:
-       """
-       Return statistical summary.
-       """
 
-       return generate_statistics_summary(self._df)
+    def statistics(self) -> StatisticsSummary:
+        """
+        Return statistical summary.
+        """
+        return generate_statistics_summary(self._df)
+
+    def outliers(self) -> OutlierSummary:
+        """
+        Return outlier statistics.
+        """
+        return generate_outlier_summary(self._df)

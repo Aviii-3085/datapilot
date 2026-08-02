@@ -65,6 +65,7 @@ class DatasetHealth:
     weaknesses: list[str]
     recommendations: list[str]
 
+
 @dataclass(slots=True)
 class StatisticsSummary:
     """
@@ -72,3 +73,15 @@ class StatisticsSummary:
     """
 
     column_statistics: dict[str, dict[str, float]]
+
+
+@dataclass(slots=True)
+class OutlierSummary:
+    """
+    Summary of outlier detection.
+    """
+
+    total_outliers: int
+    outlier_percentage: float
+    columns_with_outliers: dict[str, int]
+    columns_without_outliers: list[str]
