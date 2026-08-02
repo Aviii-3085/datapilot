@@ -29,7 +29,7 @@ def generate_data_type_summary(
     ).columns.tolist()
 
     categorical_columns = dataframe.select_dtypes(
-        include=["object", "category"]
+    include=["object", "string", "category"]
     ).columns.tolist()
 
     boolean_columns = dataframe.select_dtypes(

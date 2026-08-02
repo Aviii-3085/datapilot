@@ -7,7 +7,6 @@ and converting them into a pandas DataFrame.
 
 from pathlib import Path
 from typing import Any
-from typing import Any, cast
 
 import pandas as pd
 
@@ -36,7 +35,7 @@ def _load_dataframe(dataframe: pd.DataFrame) -> pd.DataFrame:
     Return a copy of the provided DataFrame.
     """
 
-    return cast(pd.DataFrame, dataframe.copy(deep=True))
+    return dataframe.copy(deep=True)
 
 
 def _load_file(path: Path) -> pd.DataFrame:

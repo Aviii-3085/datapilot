@@ -37,13 +37,13 @@ def generate_missing_value_summary(
     missing_per_column = dataframe.isna().sum()
 
     columns_with_missing = {
-        column: int(count)
+        str(column): int(count)
         for column, count in missing_per_column.items()
         if count > 0
     }
 
     columns_without_missing = [
-        column
+        str(column)
         for column, count in missing_per_column.items()
         if count == 0
     ]
