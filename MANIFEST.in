@@ -1,0 +1,17 @@
+include LICENSE
+include README.md
+
+graft datapilot
+
+prune .venv
+prune datapilot-test
+prune build
+prune dist
+prune reports
+prune datasets
+prune docs
+prune scripts
+prune tests
+
+global-exclude *.py[cod]
+global-exclude __pycache__

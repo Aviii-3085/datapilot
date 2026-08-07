@@ -56,3 +56,10 @@ Thumbs.db
 *.log
 # Generated reports
 report.html
+# Local virtual environments
+datapilot-test/
+test-install/
+
+# Generated reports
+reports/
+report.html
