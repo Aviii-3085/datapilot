@@ -2,9 +2,9 @@
 
 > **The first step after loading your dataset.**
 
-Datapilot is an open-source Python library that automates exploratory data analysis by generating deterministic dataset insights, health assessments, statistical summaries, and professional HTML reports.
+Datapilot is an open-source Python library for deterministic exploratory data analysis. It helps you understand your dataset by generating dataset health assessments, statistical summaries, actionable insights, and professional HTML reports.
 
-Every data project begins with understanding the data. Datapilot helps you understand your dataset before building machine learning models, dashboards, or AI-powered applications.
+Every data project begins with understanding the data. Datapilot helps you analyze your data before building machine learning models, dashboards, or AI-powered applications.
 
 ---
 
@@ -26,22 +26,24 @@ from datapilot import analyze
 df = pd.read_csv("dataset.csv")
 
 report = analyze(df)
+
+print(report.summary())
 ```
 
 ---
 
 ## Features
 
-- Dataset Summary
-- Dataset Health Score
-- Missing Value Analysis
-- Duplicate Detection
-- Data Type Analysis
-- Statistical Summaries
-- Outlier Detection
-- Correlation Analysis
-- Actionable Insights
-- Professional HTML Reports
+- 📊 Dataset Summary
+- 💚 Dataset Health Score
+- ❓ Missing Value Analysis
+- 🔁 Duplicate Detection
+- 🏷️ Data Type Analysis
+- 📈 Statistical Summaries
+- 📉 Outlier Detection
+- 🔗 Correlation Analysis
+- 💡 Actionable Insights
+- 🌐 Professional HTML Reports
 
 ---
 
@@ -57,8 +59,30 @@ Project documentation is available in the `docs/` directory.
 
 ---
 
-## Status
+## Installation Package
 
-🚧 Datapilot v0.3 — Public Preview (In Development)
+Install from PyPI:
 
-The project is currently being prepared for its first public release.
+```bash
+pip install datapilot-kit
+```
+
+Import into your project:
+
+```python
+from datapilot import analyze
+```
+
+---
+
+## Project Status
+
+🧪 **Datapilot v0.3.0rc1** — Public Release Candidate
+
+Datapilot is now available on PyPI as **`datapilot-kit`**. The current release candidate has been published for community testing and feedback before the stable **v0.3.0** release.
+
+---
+
+## License
+
+This project is licensed under the MIT License.
