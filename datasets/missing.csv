@@ -1,0 +1,6 @@
+ID,Age,Salary,Department
+1,22.0,30000.0,IT
+2,,35000.0,HR
+3,28.0,,Finance
+4,31.0,48000.0,
+5,,,IT

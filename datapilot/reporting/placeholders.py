@@ -6,6 +6,19 @@ from datetime import datetime
 
 from datapilot.core.report import Report
 
+from .fragments import (
+    build_column_name_chips,
+    build_correlation_table,
+    build_health_headline,
+    build_health_summary,
+    build_html_list,
+    build_insight_recommendations,
+    build_insights,
+    build_missing_table,
+    build_outlier_cards,
+    build_statistics_table,
+)
+
 DATAPILOT_VERSION = "0.2.0"
 
 
@@ -46,9 +59,36 @@ def build_placeholders(
         ),
         "{{FILE_FORMAT}}": "CSV",
 
+        "{{COLUMN_NAME_CHIPS}}": (
+            build_column_name_chips(report)
+        ),
+
         "{{HEALTH_SCORE}}": str(health.score),
         "{{GRADE}}": health.grade,
         "{{HEALTH_STATUS}}": health.status,
+
+        "{{HEALTH_HEADLINE}}": (
+            build_health_headline(report)
+        ),
+        "{{HEALTH_SUMMARY}}": (
+            build_health_summary(report)
+        ),
+
+        "{{STRENGTHS_LIST}}": (
+            build_html_list(
+                health.strengths,
+            )
+        ),
+        "{{WEAKNESSES_LIST}}": (
+            build_html_list(
+                health.weaknesses,
+            )
+        ),
+        "{{RECOMMENDATIONS_LIST}}": (
+            build_html_list(
+                health.recommendations,
+            )
+        ),
 
         "{{HEALTH_SCORE_SEVERITY_CLASS}}": health_class,
         "{{HEALTH_SCORE_SEVERITY_CLASS_GAUGE}}": health_class,
@@ -58,6 +98,30 @@ def build_placeholders(
         ),
         "{{MISSING_VALUES_PERCENT}}": (
             f"{missing.missing_percentage:.1f}"
+        ),
+
+        "{{MISSING_TABLE}}": (
+            build_missing_table(report)
+        ),
+
+        "{{STATISTICS_TABLE}}": (
+            build_statistics_table(report)
+        ),
+
+        "{{OUTLIER_CARDS}}": (
+            build_outlier_cards(report)
+        ),
+
+        "{{CORRELATION_TABLE}}": (
+            build_correlation_table(report)
+        ),
+
+        "{{INSIGHTS}}": (
+            build_insights(report)
+        ),
+
+        "{{RECOMMENDATIONS}}": (
+            build_insight_recommendations(report)
         ),
 
         "{{DUPLICATE_ROWS_COUNT}}": str(
