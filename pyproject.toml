@@ -4,10 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "datapilot"
-version = "0.1.0-alpha"
-description = "An intelligent dataset assessment library for Python."
+version = "0.3.0-rc1"
+
+description = "An open-source Python library for deterministic exploratory data analysis and dataset understanding."
+
 readme = "README.md"
+
 requires-python = ">=3.10"
+
 license = { file = "LICENSE" }
 
 authors = [
@@ -16,18 +20,21 @@ authors = [
 
 keywords = [
     "eda",
+    "exploratory-data-analysis",
     "data-analysis",
-    "dataset-assessment",
+    "data-science",
+    "dataset-profiling",
     "machine-learning",
-    "python",
     "analytics",
-    "data-science"
+    "python"
 ]
 
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Topic :: Scientific/Engineering :: Information Analysis",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -59,6 +66,7 @@ dev = [
 Homepage = "https://github.com/Aviii-3085/datapilot"
 Repository = "https://github.com/Aviii-3085/datapilot"
 Issues = "https://github.com/Aviii-3085/datapilot/issues"
+Documentation = "https://github.com/Aviii-3085/datapilot/tree/main/docs"
 
 [tool.black]
 line-length = 88
