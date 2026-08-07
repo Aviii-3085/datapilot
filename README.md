@@ -11,7 +11,7 @@ Every data project begins with understanding the data. Datapilot helps you under
 ## Installation
 
 ```bash
-pip install datapilot
+pip install datapilot-kit
 ```
 
 ---
