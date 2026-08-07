@@ -1,23 +1,64 @@
 # Datapilot
 
-Understand your data, not just analyze it.
+> **The first step after loading your dataset.**
 
-Datapilot is an open-source Python library that combines exploratory data analysis with intelligent interpretation and practical machine learning recommendations.
+Datapilot is an open-source Python library that automates exploratory data analysis by generating deterministic dataset insights, health assessments, statistical summaries, and professional HTML reports.
+
+Every data project begins with understanding the data. Datapilot helps you understand your dataset before building machine learning models, dashboards, or AI-powered applications.
+
+---
+
+## Installation
+
+```bash
+pip install datapilot
+```
+
+---
+
+## Quick Start
+
+```python
+import pandas as pd
+
+from datapilot import analyze
+
+df = pd.read_csv("dataset.csv")
+
+report = analyze(df)
+```
+
+---
 
 ## Features
 
-- Automated EDA
-- Dataset health scoring
-- Data quality checks
-- Intelligent recommendations
-- HTML reports
-- CLI
-- AI explanations
+- Dataset Summary
+- Dataset Health Score
+- Missing Value Analysis
+- Duplicate Detection
+- Data Type Analysis
+- Statistical Summaries
+- Outlier Detection
+- Correlation Analysis
+- Actionable Insights
+- Professional HTML Reports
+
+---
+
+## Documentation
+
+Project documentation is available in the `docs/` directory.
+
+- Vision
+- User Journey
+- API Philosophy
+- API Review
+- Roadmap
+
+---
 
 ## Status
 
-Currently under development.
+🚧 Datapilot v0.3 — Public Preview (In Development)
 
-## Roadmap
-
-See ROADMAP.md.
+The project is currently being prepared for its first public release.
