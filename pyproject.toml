@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "datapilot-kit"
-version = "0.3.0rc1"
+version = "0.3.0"
 description = "An open-source Python library for deterministic exploratory data analysis and dataset understanding."
 readme = "README.md"
 requires-python = ">=3.10"
