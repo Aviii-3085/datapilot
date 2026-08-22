@@ -19,7 +19,25 @@ from .fragments import (
     build_statistics_table,
 )
 
-DATAPILOT_VERSION = "0.2.0"
+DATAPILOT_VERSION = "0.3.0"
+
+
+def _severity_class(
+    percentage: float,
+) -> str:
+    """
+    Return a visual severity class based on a percentage.
+
+    The class is intended for report presentation only.
+    """
+
+    if percentage == 0:
+        return "kpi-card--good"
+
+    if percentage <= 5:
+        return "kpi-card--warn"
+
+    return "kpi-card--bad"
 
 
 def build_placeholders(
@@ -40,6 +58,23 @@ def build_placeholders(
         else "kpi-card--warn"
         if health.score >= 75
         else "kpi-card--bad"
+    )
+
+    missing_class = _severity_class(
+        missing.missing_percentage,
+    )
+
+    duplicate_class = _severity_class(
+        duplicates.duplicate_percentage,
+    )
+
+    unique_rows = max(
+        summary.rows - duplicates.total_duplicates,
+        0,
+    )
+
+    missing_columns_affected = len(
+        missing.columns_with_missing,
     )
 
     return {
@@ -99,6 +134,12 @@ def build_placeholders(
         "{{MISSING_VALUES_PERCENT}}": (
             f"{missing.missing_percentage:.1f}"
         ),
+        "{{MISSING_VALUES_SEVERITY_CLASS}}": (
+            missing_class
+        ),
+        "{{MISSING_COLUMNS_AFFECTED}}": str(
+            missing_columns_affected,
+        ),
 
         "{{MISSING_TABLE}}": (
             build_missing_table(report)
@@ -129,5 +170,11 @@ def build_placeholders(
         ),
         "{{DUPLICATE_ROWS_PERCENT}}": (
             f"{duplicates.duplicate_percentage:.1f}"
+        ),
+        "{{DUPLICATE_ROWS_SEVERITY_CLASS}}": (
+            duplicate_class
+        ),
+        "{{UNIQUE_ROWS_COUNT}}": str(
+            unique_rows,
         ),
     }

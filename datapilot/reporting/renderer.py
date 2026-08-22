@@ -3,6 +3,7 @@ HTML renderer for Datapilot reports.
 """
 
 from pathlib import Path
+from time import perf_counter
 
 from datapilot.core.report import Report
 
@@ -35,12 +36,22 @@ class HTMLRenderer:
         Render the HTML report.
         """
 
+        start_time = perf_counter()
+
         template = self._template_path.read_text(
             encoding="utf-8",
         )
 
         replacements = build_placeholders(
             report,
+        )
+
+        generation_duration = (
+            perf_counter() - start_time
+        )
+
+        replacements["{{GENERATION_DURATION}}"] = (
+            f"{generation_duration:.3f} seconds"
         )
 
         html = template
@@ -51,7 +62,14 @@ class HTMLRenderer:
                 value,
             )
 
-        Path(output_path).write_text(
+        output_path = Path(output_path)
+
+        output_path.parent.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
+
+        output_path.write_text(
             html,
             encoding="utf-8",
         )

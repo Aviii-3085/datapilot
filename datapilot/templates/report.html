@@ -48,8 +48,6 @@
 
 <!-- ==========================================================================
      SHELL: NAVIGATION RAIL + MAIN CONTENT
-     To add a future section (e.g. Distribution Analysis), add one <li> here
-     and one .report-section below — nothing else in the page needs to change.
      ========================================================================== -->
 <div class="dp-shell">
 
@@ -70,7 +68,6 @@
 
     <!--
       FUTURE SECTIONS — uncomment and extend as each capability ships.
-      Keep the same <li><a href="#id"><span class="rail-index">NN</span>Label</a></li> pattern.
 
       <div class="dp-rail-divider"></div>
       <div class="dp-rail-group-label">Coming soon</div>
@@ -88,7 +85,7 @@
   <main class="dp-main">
 
     <!-- ======================================================================
-         02. EXECUTIVE DASHBOARD
+         01. EXECUTIVE DASHBOARD
          ====================================================================== -->
     <section class="report-section" id="executive-dashboard">
       <div class="report-section-head">
@@ -100,7 +97,7 @@
       </div>
 
       <div class="kpi-grid">
-        <!-- Health score card spans the gauge; class kpi-card--good/warn/bad set by Python per score band -->
+
         <div class="kpi-card {{HEALTH_SCORE_SEVERITY_CLASS}}">
           <div class="kpi-label">Health Score</div>
           <div class="kpi-value">{{HEALTH_SCORE}}<span class="kpi-unit">/100</span></div>
@@ -128,14 +125,19 @@
         <div class="kpi-card {{MISSING_VALUES_SEVERITY_CLASS}}">
           <div class="kpi-label">Missing Values</div>
           <div class="kpi-value">{{MISSING_VALUES_COUNT}}</div>
-          <div class="kpi-sub {{MISSING_VALUES_SEVERITY_CLASS}}">{{MISSING_VALUES_PERCENT}}% of all cells</div>
+          <div class="kpi-sub {{MISSING_VALUES_SEVERITY_CLASS}}">
+            {{MISSING_VALUES_PERCENT}}% of all cells
+          </div>
         </div>
 
         <div class="kpi-card {{DUPLICATE_ROWS_SEVERITY_CLASS}}">
           <div class="kpi-label">Duplicate Rows</div>
           <div class="kpi-value">{{DUPLICATE_ROWS_COUNT}}</div>
-          <div class="kpi-sub {{DUPLICATE_ROWS_SEVERITY_CLASS}}">{{DUPLICATE_ROWS_PERCENT}}% of rows</div>
+          <div class="kpi-sub {{DUPLICATE_ROWS_SEVERITY_CLASS}}">
+            {{DUPLICATE_ROWS_PERCENT}}% of rows
+          </div>
         </div>
+
       </div>
     </section>
 
@@ -147,37 +149,46 @@
         <div class="heading-block">
           <div class="eyebrow">Structure</div>
           <h2 class="section-title">Dataset Overview</h2>
-          <p class="section-subtitle">Shape, memory footprint, and schema of {{DATASET_NAME}}.</p>
+          <p class="section-subtitle">
+            Shape, memory footprint, and schema of {{DATASET_NAME}}.
+          </p>
         </div>
       </div>
 
       <div class="card card-pad">
+
         <div class="definition-grid">
+
           <div class="definition-item">
             <div class="definition-label">Rows</div>
             <div class="definition-value">{{ROWS}}</div>
           </div>
+
           <div class="definition-item">
             <div class="definition-label">Columns</div>
             <div class="definition-value">{{COLUMNS}}</div>
           </div>
+
           <div class="definition-item">
             <div class="definition-label">Memory Usage</div>
             <div class="definition-value">{{MEMORY_USAGE}}</div>
           </div>
+
           <div class="definition-item">
             <div class="definition-label">File Format</div>
             <div class="definition-value">{{FILE_FORMAT}}</div>
           </div>
+
         </div>
 
         <div style="margin-top: var(--sp-6); padding-top: var(--sp-5); border-top: 1px solid var(--line-200);">
           <div class="definition-label">Column Names</div>
-          <!-- Python injects one .column-chip per column into this block -->
+
           <div class="column-chip-list">
             {{COLUMN_NAME_CHIPS}}
           </div>
         </div>
+
       </div>
     </section>
 
@@ -185,18 +196,25 @@
          03. DATASET HEALTH
          ====================================================================== -->
     <section class="report-section" id="dataset-health">
+
       <div class="report-section-head">
         <div class="heading-block">
           <div class="eyebrow">Diagnosis</div>
           <h2 class="section-title">Dataset Health</h2>
-          <p class="section-subtitle">Composite score, key strengths, and where to focus first.</p>
+          <p class="section-subtitle">
+            Composite score, key strengths, and where to focus first.
+          </p>
         </div>
       </div>
 
       <div class="card card-pad">
+
         <div class="health-hero">
-          <!-- --score custom property drives the conic-gradient ring; gauge--good/warn/bad set by Python -->
-          <div class="gauge {{HEALTH_SCORE_SEVERITY_CLASS_GAUGE}}" style="--score: {{HEALTH_SCORE}};">
+
+          <div
+            class="gauge {{HEALTH_SCORE_SEVERITY_CLASS_GAUGE}}"
+            style="--score: {{HEALTH_SCORE}};"
+          >
             <div class="gauge-inner">
               <div class="gauge-score">{{HEALTH_SCORE}}</div>
               <div class="gauge-grade">Grade {{GRADE}}</div>
@@ -204,39 +222,62 @@
           </div>
 
           <div class="health-hero-body">
+
             <div class="health-hero-top">
-              <div class="health-hero-title">{{HEALTH_HEADLINE}}</div>
-              <span class="badge badge--grade {{HEALTH_SCORE_SEVERITY_CLASS}}">{{HEALTH_STATUS}}</span>
+              <div class="health-hero-title">
+                {{HEALTH_HEADLINE}}
+              </div>
+
+              <span class="badge badge--grade {{HEALTH_SCORE_SEVERITY_CLASS}}">
+                {{HEALTH_STATUS}}
+              </span>
             </div>
 
-            <p class="section-subtitle mt-0" style="margin-bottom: var(--sp-3);">{{HEALTH_SUMMARY}}</p>
+            <p
+              class="section-subtitle mt-0"
+              style="margin-bottom: var(--sp-3);"
+            >
+              {{HEALTH_SUMMARY}}
+            </p>
 
             <div class="progress-row">
               <span class="progress-label">Overall score</span>
+
               <div class="progress-track">
-                <div class="progress-fill {{HEALTH_SCORE_SEVERITY_CLASS}}" style="width: {{HEALTH_SCORE}}%;"></div>
+                <div
+                  class="progress-fill {{HEALTH_SCORE_SEVERITY_CLASS}}"
+                  style="width: {{HEALTH_SCORE}}%;"
+                ></div>
               </div>
-              <span class="progress-value numeral">{{HEALTH_SCORE}}/100</span>
+
+              <span class="progress-value numeral">
+                {{HEALTH_SCORE}}/100
+              </span>
             </div>
+
           </div>
         </div>
 
         <div class="trait-columns">
+
           <div>
             <h4>Strengths</h4>
-            <!-- Python injects one .trait-item per strength -->
+
             <div class="trait-list trait-list--strength">
               {{STRENGTHS_LIST}}
             </div>
           </div>
+
           <div>
             <h4>Weaknesses</h4>
-            <!-- Python injects one .trait-item per weakness -->
+
             <div class="trait-list trait-list--weakness">
               {{WEAKNESSES_LIST}}
             </div>
           </div>
+
         </div>
+
       </div>
     </section>
 
@@ -244,17 +285,27 @@
          04. MISSING VALUES
          ====================================================================== -->
     <section class="report-section" id="missing-values">
+
       <div class="report-section-head">
+
         <div class="heading-block">
           <div class="eyebrow">Completeness</div>
           <h2 class="section-title">Missing Values</h2>
-          <p class="section-subtitle">Null counts and percentage completeness per column.</p>
+          <p class="section-subtitle">
+            Null counts and percentage completeness per column.
+          </p>
         </div>
-        <span class="section-tag">{{MISSING_COLUMNS_AFFECTED}} of {{COLUMNS}} columns affected</span>
+
+        <span class="section-tag">
+          {{MISSING_COLUMNS_AFFECTED}} of {{COLUMNS}} columns affected
+        </span>
+
       </div>
 
       <div class="table-wrap">
+
         <table class="dp-table dp-table--zebra">
+
           <thead>
             <tr>
               <th>Column</th>
@@ -264,26 +315,13 @@
               <th>Severity</th>
             </tr>
           </thead>
+
           <tbody>
-            <!--
-              {{MISSING_TABLE}}
-              Python renders one <tr> per column, e.g.:
-              <tr>
-                <td class="col-name">age</td>
-                <td class="num">128</td>
-                <td>
-                  <div class="cell-bar">
-                    <div class="cell-bar-track"><div class="cell-bar-fill sev-warn" style="width: 12%;"></div></div>
-                    <span class="cell-bar-pct numeral">12.0%</span>
-                  </div>
-                </td>
-                <td class="num">float64</td>
-                <td><span class="badge badge--warn">Moderate</span></td>
-              </tr>
-            -->
             {{MISSING_TABLE}}
           </tbody>
+
         </table>
+
       </div>
     </section>
 
@@ -291,31 +329,42 @@
          05. DUPLICATE ANALYSIS
          ====================================================================== -->
     <section class="report-section" id="duplicate-analysis">
+
       <div class="report-section-head">
+
         <div class="heading-block">
           <div class="eyebrow">Uniqueness</div>
           <h2 class="section-title">Duplicate Analysis</h2>
-          <p class="section-subtitle">Repeated records that may skew downstream analysis.</p>
+          <p class="section-subtitle">
+            Repeated records that may skew downstream analysis.
+          </p>
         </div>
+
       </div>
 
       <div class="pill-grid">
+
         <div class="pill-card">
           <div class="kpi-label">Duplicate Rows</div>
-          <div class="kpi-value {{DUPLICATE_ROWS_SEVERITY_CLASS}}">{{DUPLICATE_ROWS_COUNT}}</div>
+          <div class="kpi-value {{DUPLICATE_ROWS_SEVERITY_CLASS}}">
+            {{DUPLICATE_ROWS_COUNT}}
+          </div>
         </div>
+
         <div class="pill-card">
           <div class="kpi-label">Duplicate %</div>
-          <div class="kpi-value">{{DUPLICATE_ROWS_PERCENT}}%</div>
+          <div class="kpi-value">
+            {{DUPLICATE_ROWS_PERCENT}}%
+          </div>
         </div>
+
         <div class="pill-card">
           <div class="kpi-label">Unique Rows</div>
-          <div class="kpi-value">{{UNIQUE_ROWS_COUNT}}</div>
+          <div class="kpi-value">
+            {{UNIQUE_ROWS_COUNT}}
+          </div>
         </div>
-        <div class="pill-card">
-          <div class="kpi-label">Duplicate Groups</div>
-          <div class="kpi-value">{{DUPLICATE_GROUPS_COUNT}}</div>
-        </div>
+
       </div>
     </section>
 
@@ -323,16 +372,23 @@
          06. STATISTICS
          ====================================================================== -->
     <section class="report-section" id="statistics">
+
       <div class="report-section-head">
+
         <div class="heading-block">
           <div class="eyebrow">Distribution</div>
           <h2 class="section-title">Statistics</h2>
-          <p class="section-subtitle">Descriptive statistics for every numeric column.</p>
+          <p class="section-subtitle">
+            Descriptive statistics for every numeric column.
+          </p>
         </div>
+
       </div>
 
       <div class="table-wrap">
+
         <table class="dp-table dp-table--zebra">
+
           <thead>
             <tr>
               <th>Column</th>
@@ -346,15 +402,13 @@
               <th class="num">Max</th>
             </tr>
           </thead>
+
           <tbody>
-            <!--
-              {{STATISTICS_TABLE}}
-              Python renders one <tr> per numeric column with a <td class="col-name"> for the
-              column name and <td class="num numeral"> cells for each statistic.
-            -->
             {{STATISTICS_TABLE}}
           </tbody>
+
         </table>
+
       </div>
     </section>
 
@@ -362,143 +416,104 @@
          07. OUTLIER ANALYSIS
          ====================================================================== -->
     <section class="report-section" id="outlier-analysis">
+
       <div class="report-section-head">
+
         <div class="heading-block">
           <div class="eyebrow">Anomalies</div>
           <h2 class="section-title">Outlier Analysis</h2>
-          <p class="section-subtitle">Columns with values that fall outside expected bounds.</p>
+          <p class="section-subtitle">
+            Columns with values that fall outside expected bounds.
+          </p>
         </div>
+
       </div>
 
       <div class="outlier-grid">
-        <!--
-          {{OUTLIER_CARDS}}
-          Python renders one .outlier-card per flagged column, e.g.:
-          <div class="outlier-card">
-            <div class="outlier-card-head">
-              <span class="outlier-column">transaction_amount</span>
-              <span class="badge badge--warn">42 outliers</span>
-            </div>
-            <div class="outlier-stats">
-              <div><div class="outlier-stat-label">Lower Bound</div><div class="outlier-stat-value numeral">-120.50</div></div>
-              <div><div class="outlier-stat-label">Upper Bound</div><div class="outlier-stat-value numeral">890.25</div></div>
-              <div><div class="outlier-stat-label">Outlier %</div><div class="outlier-stat-value numeral">1.8%</div></div>
-              <div><div class="outlier-stat-label">Extreme Count</div><div class="outlier-stat-value numeral">6</div></div>
-            </div>
-            <div class="outlier-method">Method: IQR (1.5×)</div>
-          </div>
-        -->
         {{OUTLIER_CARDS}}
       </div>
+
     </section>
 
     <!-- ======================================================================
          08. CORRELATION ANALYSIS
          ====================================================================== -->
     <section class="report-section" id="correlation-analysis">
+
       <div class="report-section-head">
+
         <div class="heading-block">
           <div class="eyebrow">Relationships</div>
           <h2 class="section-title">Correlation Analysis</h2>
-          <p class="section-subtitle">Pairwise correlation strength across numeric columns.</p>
+          <p class="section-subtitle">
+            Pairwise correlation strength across numeric columns.
+          </p>
         </div>
+
       </div>
 
       <div class="table-wrap">
+
         <table class="dp-table">
-          <!--
-            {{CORRELATION_TABLE}}
-            Column names are only known at runtime, so Python owns the whole table body —
-            including the header row — as a single block. Emit one leading <tr> of <th>
-            cells (blank corner cell + one <th> per column), then one <tr> per row with a
-            <td class="col-name"> row label and <td class="heat ..."> per value, e.g.:
-
-            <tr><th></th><th class="num">age</th><th class="num">mrr</th></tr>
-            <tr>
-              <td class="col-name">age</td>
-              <td class="heat heat-pos-3">1.00</td>
-              <td class="heat heat-neg-1">-0.22</td>
-            </tr>
-
-            Suggested heat classes by |r|: heat-neutral (<0.2), heat-pos-1/neg-1 (0.2–0.4),
-            heat-pos-2/neg-2 (0.4–0.7), heat-pos-3 (>0.7, positive only diagonal/strong).
-          -->
           {{CORRELATION_TABLE}}
         </table>
+
       </div>
+
     </section>
 
     <!-- ======================================================================
          09. INSIGHTS
          ====================================================================== -->
     <section class="report-section" id="insights">
+
       <div class="report-section-head">
+
         <div class="heading-block">
           <div class="eyebrow">Analysis</div>
           <h2 class="section-title">Insights</h2>
-          <p class="section-subtitle">Notable patterns Datapilot surfaced automatically.</p>
+          <p class="section-subtitle">
+            Notable patterns Datapilot surfaced automatically.
+          </p>
         </div>
+
       </div>
 
       <div class="alert-grid">
-        <!--
-          {{INSIGHTS}}
-          Python renders one .alert per insight, variant chosen from info / warning / success / danger:
-          <div class="alert alert--info">
-            <div class="alert-icon">…svg…</div>
-            <div class="alert-body">
-              <div class="alert-title">Skewed distribution detected</div>
-              <div class="alert-text">Column 'income' is right-skewed (skew = 2.4); consider a log transform.</div>
-            </div>
-          </div>
-        -->
         {{INSIGHTS}}
       </div>
+
     </section>
 
     <!-- ======================================================================
          10. RECOMMENDATIONS
          ====================================================================== -->
     <section class="report-section" id="recommendations">
+
       <div class="report-section-head">
+
         <div class="heading-block">
           <div class="eyebrow">Next steps</div>
           <h2 class="section-title">Recommendations</h2>
-          <p class="section-subtitle">Prioritized actions to improve dataset quality.</p>
+          <p class="section-subtitle">
+            Prioritized actions to improve dataset quality.
+          </p>
         </div>
+
       </div>
 
       <div class="checklist">
-        <!--
-          {{RECOMMENDATIONS}}
-          Python renders one .checklist-item per recommendation, priority class sets accent color:
-          <div class="checklist-item priority-high">
-            <span class="checklist-mark"></span>
-            <span class="checklist-text"><strong>Impute or drop 'age'.</strong> 18.4% missing exceeds the 15% threshold.</span>
-            <span class="checklist-priority-label badge badge--bad">High</span>
-          </div>
-        -->
         {{RECOMMENDATIONS}}
       </div>
+
     </section>
 
     <!-- ======================================================================
-         FUTURE SECTION TEMPLATE (copy this block for new capabilities)
-         Uncomment, rename the id/eyebrow/title, and add a matching rail link.
-         The grid, spacing, and card system are already wired up.
+         FUTURE SECTIONS
+         ======================================================================
 
-    <section class="report-section" id="distribution-analysis">
-      <div class="report-section-head">
-        <div class="heading-block">
-          <div class="eyebrow">Shape</div>
-          <h2 class="section-title">Distribution Analysis</h2>
-          <p class="section-subtitle">Placeholder subtitle for the new section.</p>
-        </div>
-      </div>
-      <div class="card card-pad">
-        {{DISTRIBUTION_ANALYSIS_CONTENT}}
-      </div>
-    </section>
+         Distribution Analysis and other future capabilities will be added
+         when their corresponding analysis engines are implemented.
 
          ====================================================================== -->
 
@@ -509,19 +524,67 @@
      FOOTER
      ========================================================================== -->
 <footer style="border-top: 1px solid var(--line-200); margin-top: var(--sp-12);">
-  <div class="dp-shell" style="grid-template-columns: 1fr; padding-top: var(--sp-6); padding-bottom: var(--sp-8);">
-    <div class="flex items-center justify-between gap-4" style="flex-wrap: wrap;">
+
+  <div
+    class="dp-shell"
+    style="
+      grid-template-columns: 1fr;
+      padding-top: var(--sp-6);
+      padding-bottom: var(--sp-8);
+    "
+  >
+
+    <div
+      class="flex items-center justify-between gap-4"
+      style="flex-wrap: wrap;"
+    >
+
       <div class="flex items-center gap-3">
-        <div class="dp-logo" style="width: 28px; height: 28px;">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 14px; height: 14px;">
-            <path d="M4 18V10.5M9.5 18V6M15 18V13M20 18V8.5" stroke="white" stroke-width="2.4" stroke-linecap="round"/>
+
+        <div
+          class="dp-logo"
+          style="width: 28px; height: 28px;"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style="width: 14px; height: 14px;"
+          >
+            <path
+              d="M4 18V10.5M9.5 18V6M15 18V13M20 18V8.5"
+              stroke="white"
+              stroke-width="2.4"
+              stroke-linecap="round"
+            />
           </svg>
         </div>
-        <span class="text-muted" style="font-size: var(--fs-sm);">Generated by <strong style="color: var(--ink-700);">Datapilot</strong> {{DATAPILOT_VERSION}}</span>
+
+        <span
+          class="text-muted"
+          style="font-size: var(--fs-sm);"
+        >
+          Generated by
+          <strong style="color: var(--ink-700);">
+            Datapilot
+          </strong>
+          {{DATAPILOT_VERSION}}
+        </span>
+
       </div>
-      <span class="text-faint numeral" style="font-size: var(--fs-xs);">{{REPORT_GENERATED_AT}} · completed in {{GENERATION_DURATION}}</span>
+
+      <span
+        class="text-faint numeral"
+        style="font-size: var(--fs-xs);"
+      >
+        {{REPORT_GENERATED_AT}}
+        · completed in {{GENERATION_DURATION}}
+      </span>
+
     </div>
+
   </div>
+
 </footer>
 
 </body>

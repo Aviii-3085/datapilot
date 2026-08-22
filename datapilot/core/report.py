@@ -38,7 +38,10 @@ class Report:
     Represents the analysis results of a dataset.
     """
 
-    def __init__(self, dataframe: pd.DataFrame) -> None:
+    def __init__(
+        self,
+        dataframe: pd.DataFrame,
+    ) -> None:
         """
         Initialize a Report object.
 
@@ -47,58 +50,155 @@ class Report:
         dataframe : pandas.DataFrame
             Dataset to analyze.
         """
+
         self._df = dataframe
+
+        self._summary: DatasetSummary | None = None
+        self._missing_values: MissingValueSummary | None = None
+        self._duplicates: DuplicateSummary | None = None
+        self._data_types: DataTypeSummary | None = None
+        self._dataset_health: DatasetHealth | None = None
+        self._statistics: StatisticsSummary | None = None
+        self._outliers: OutlierSummary | None = None
+        self._correlation: CorrelationSummary | None = None
+        self._insights: InsightSummary | None = None
 
     def summary(self) -> DatasetSummary:
         """
         Return a summary of the dataset.
         """
-        return generate_summary(self._df)
 
-    def missing_values(self) -> MissingValueSummary:
+        if self._summary is None:
+            self._summary = generate_summary(
+                self._df
+            )
+
+        return self._summary
+
+    def missing_values(
+        self,
+    ) -> MissingValueSummary:
         """
         Return missing value statistics for the dataset.
         """
-        return generate_missing_value_summary(self._df)
 
-    def duplicates(self) -> DuplicateSummary:
+        if self._missing_values is None:
+            self._missing_values = (
+                generate_missing_value_summary(
+                    self._df
+                )
+            )
+
+        return self._missing_values
+
+    def duplicates(
+        self,
+    ) -> DuplicateSummary:
         """
         Return duplicate row statistics for the dataset.
         """
-        return generate_duplicate_summary(self._df)
 
-    def data_types(self) -> DataTypeSummary:
+        if self._duplicates is None:
+            self._duplicates = (
+                generate_duplicate_summary(
+                    self._df
+                )
+            )
+
+        return self._duplicates
+
+    def data_types(
+        self,
+    ) -> DataTypeSummary:
         """
         Return data type statistics for the dataset.
         """
-        return generate_data_type_summary(self._df)
 
-    def dataset_health(self) -> DatasetHealth:
+        if self._data_types is None:
+            self._data_types = (
+                generate_data_type_summary(
+                    self._df
+                )
+            )
+
+        return self._data_types
+
+    def dataset_health(
+        self,
+    ) -> DatasetHealth:
         """
         Return the overall health assessment of the dataset.
         """
-        return generate_dataset_health(self._df)
 
-    def statistics(self) -> StatisticsSummary:
+        if self._dataset_health is None:
+            self._dataset_health = (
+                generate_dataset_health(
+                    self._df
+                )
+            )
+
+        return self._dataset_health
+
+    def statistics(
+        self,
+    ) -> StatisticsSummary:
         """
         Return statistical summary.
         """
-        return generate_statistics_summary(self._df)
 
-    def outliers(self) -> OutlierSummary:
+        if self._statistics is None:
+            self._statistics = (
+                generate_statistics_summary(
+                    self._df
+                )
+            )
+
+        return self._statistics
+
+    def outliers(
+        self,
+    ) -> OutlierSummary:
         """
         Return outlier statistics.
         """
-        return generate_outlier_summary(self._df)
 
-    def correlation(self) -> CorrelationSummary:
+        if self._outliers is None:
+            self._outliers = (
+                generate_outlier_summary(
+                    self._df
+                )
+            )
+
+        return self._outliers
+
+    def correlation(
+        self,
+    ) -> CorrelationSummary:
         """
         Return correlation analysis.
         """
-        return generate_correlation_summary(self._df)
 
-    def insights(self) -> InsightSummary:
+        if self._correlation is None:
+            self._correlation = (
+                generate_correlation_summary(
+                    self._df
+                )
+            )
+
+        return self._correlation
+
+    def insights(
+        self,
+    ) -> InsightSummary:
         """
         Return generated dataset insights.
         """
-        return generate_insight_summary(self._df)
+
+        if self._insights is None:
+            self._insights = (
+                generate_insight_summary(
+                    self._df
+                )
+            )
+
+        return self._insights

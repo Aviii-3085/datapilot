@@ -63,3 +63,7 @@ test-install/
 # Generated reports
 reports/
 report.html
+# Local release validation artifacts
+release-test/
+release-test-2/
+validation/

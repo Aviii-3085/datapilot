@@ -1,6 +1,6 @@
 # Datapilot
 
-> **The first step after loading your dataset.**
+**The first step after loading your dataset.**
 
 Datapilot is an open-source Python library for deterministic exploratory data analysis and dataset understanding.
 
@@ -28,9 +28,24 @@ from datapilot import analyze
 df = pd.read_csv("dataset.csv")
 
 report = analyze(df)
+
+print(report.summary())
+print(report.dataset_health())
+print(report.insights())
 ```
 
-Datapilot analyzes your dataset and generates structured insights, health assessments, statistical summaries, and reporting information.
+Datapilot analyzes your dataset and returns a structured `Report` object containing dataset summaries, health assessments, statistical analysis, insights, and recommendations.
+
+---
+
+## Supported Inputs
+
+Datapilot currently supports:
+
+- Pandas DataFrames
+- CSV files
+- Excel files
+- Headerless `.data` files
 
 ---
 
@@ -63,7 +78,7 @@ Project documentation is available in the `docs/` directory.
 
 ## Status
 
-🚀 **Datapilot v0.3.0 — Stable Release**
+**Datapilot v0.3.0 — Stable Release**
 
 Datapilot is now available on PyPI as **`datapilot-kit`**.
 
