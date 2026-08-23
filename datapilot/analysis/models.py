@@ -92,6 +92,21 @@ class MLReadiness:
     recommendations: list[str]
 
 @dataclass(slots=True)
+class NotebookReadiness:
+    """
+    Observable readiness assessment for notebook workflows.
+    """
+
+    score: float
+    status: str
+    workflow: str
+    target_environments: list[str]
+    compatibility: str
+    assessed: list[str]
+    not_assessed: list[str]
+    recommendations: list[str]
+
+@dataclass(slots=True)
 class StatisticsSummary:
     """
     Statistical summary of numeric columns.

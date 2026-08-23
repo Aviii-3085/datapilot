@@ -10,6 +10,9 @@ import pandas as pd
 from ..analysis.correlation import (
     generate_correlation_summary,
 )
+from ..analysis.data_integrity import (
+    generate_data_integrity_summary,
+)
 from ..analysis.datatype import generate_data_type_summary
 from ..analysis.duplicate import generate_duplicate_summary
 from ..analysis.health import generate_dataset_health
@@ -20,27 +23,27 @@ from ..analysis.missing import generate_missing_value_summary
 from ..analysis.ml_readiness import generate_ml_readiness
 from ..analysis.models import (
     CorrelationSummary,
+    DataIntegritySummary,
     DatasetHealth,
     DatasetSummary,
     DataTypeSummary,
     DuplicateSummary,
     InsightSummary,
-    MLReadiness,
     MissingValueSummary,
+    MLReadiness,
+    NotebookReadiness,
     OutlierSummary,
     StatisticsSummary,
-    DataIntegritySummary,
+)
+from ..analysis.notebook_readiness import (
+    generate_notebook_readiness,
 )
 from ..analysis.outliers import generate_outlier_summary
-from ..analysis.statistics import generate_statistics_summary
 from ..analysis.statistical_profile import (
     generate_statistical_profile,
 )
+from ..analysis.statistics import generate_statistics_summary
 from ..analysis.summary import generate_summary
-from ..analysis.data_integrity import (
-    generate_data_integrity_summary,
-)
-
 
 
 class Report:
@@ -76,6 +79,8 @@ class Report:
         self._correlation: CorrelationSummary | None = None
         self._insights: InsightSummary | None = None
         self._data_integrity: DataIntegritySummary | None = None
+        self._notebook_readiness: NotebookReadiness | None = None
+
     def summary(
         self,
     ) -> DatasetSummary:
@@ -185,6 +190,22 @@ class Report:
             )
 
         return self._data_integrity
+
+    def notebook_readiness(
+        self,
+    ) -> NotebookReadiness:
+        """
+        Return notebook workflow readiness.
+        """
+
+        if self._notebook_readiness is None:
+            self._notebook_readiness = (
+                generate_notebook_readiness(
+                    self.summary()
+                )
+            )
+
+        return self._notebook_readiness
 
     def statistics(
         self,
