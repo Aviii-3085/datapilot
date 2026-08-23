@@ -70,6 +70,26 @@ class DatasetHealth:
     weaknesses: list[str]
     recommendations: list[str]
 
+@dataclass(slots=True)
+class MLReadiness:
+    """
+    Observable machine-learning readiness assessment.
+
+    A score represents preparation signals only. It does not
+    guarantee that a successful ML model can be trained.
+    """
+
+    score: float | None
+    status: str
+    completeness_score: float
+    feature_quality_score: float
+    data_stability_score: float
+    consistency_score: float
+    distribution_score: float
+    target_readiness: str
+    strengths: list[str]
+    weaknesses: list[str]
+    recommendations: list[str]
 
 @dataclass(slots=True)
 class StatisticsSummary:

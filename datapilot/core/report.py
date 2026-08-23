@@ -17,6 +17,7 @@ from ..analysis.insights import (
     generate_insight_summary,
 )
 from ..analysis.missing import generate_missing_value_summary
+from ..analysis.ml_readiness import generate_ml_readiness
 from ..analysis.models import (
     CorrelationSummary,
     DatasetHealth,
@@ -25,6 +26,7 @@ from ..analysis.models import (
     DuplicateSummary,
     InsightSummary,
     MissingValueSummary,
+    MLReadiness,
     OutlierSummary,
     StatisticsSummary,
 )
@@ -41,6 +43,7 @@ class Report:
     def __init__(
         self,
         dataframe: pd.DataFrame,
+        file_format: str = "DataFrame",
     ) -> None:
         """
         Initialize a Report object.
@@ -52,18 +55,22 @@ class Report:
         """
 
         self._df = dataframe
+        self._file_format = file_format
 
         self._summary: DatasetSummary | None = None
         self._missing_values: MissingValueSummary | None = None
         self._duplicates: DuplicateSummary | None = None
         self._data_types: DataTypeSummary | None = None
         self._dataset_health: DatasetHealth | None = None
+        self._ml_readiness: MLReadiness | None = None
         self._statistics: StatisticsSummary | None = None
         self._outliers: OutlierSummary | None = None
         self._correlation: CorrelationSummary | None = None
         self._insights: InsightSummary | None = None
 
-    def summary(self) -> DatasetSummary:
+    def summary(
+        self,
+    ) -> DatasetSummary:
         """
         Return a summary of the dataset.
         """
@@ -138,6 +145,20 @@ class Report:
             )
 
         return self._dataset_health
+
+    def ml_readiness(
+        self,
+    ) -> MLReadiness:
+        """
+        Return observable machine-learning readiness signals.
+        """
+
+        if self._ml_readiness is None:
+            self._ml_readiness = generate_ml_readiness(
+                self._df
+            )
+
+        return self._ml_readiness
 
     def statistics(
         self,
