@@ -92,7 +92,7 @@ def build_placeholders(
         "{{MEMORY_USAGE}}": (
             f"{summary.memory_usage_mb:.2f} MB"
         ),
-        "{{FILE_FORMAT}}": "CSV",
+        "{{FILE_FORMAT}}": report._file_format,
 
         "{{COLUMN_NAME_CHIPS}}": (
             build_column_name_chips(report)
