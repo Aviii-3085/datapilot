@@ -56,13 +56,16 @@ class DataTypeSummary:
 @dataclass(slots=True)
 class DatasetHealth:
     """
-    Overall health assessment of a dataset.
+    Overall Dataset Health assessment.
     """
 
-    score: int
+    score: float
     grade: str
     status: str
-    ml_ready: bool
+    completeness_score: float
+    duplicate_score: float
+    structure_score: float
+    consistency_score: float
     strengths: list[str]
     weaknesses: list[str]
     recommendations: list[str]
@@ -88,6 +91,7 @@ class OutlierSummary:
     columns_with_outliers: dict[str, int]
     columns_without_outliers: list[str]
 
+
 @dataclass(slots=True)
 class CorrelationSummary:
     """
@@ -98,6 +102,7 @@ class CorrelationSummary:
     strong_positive_pairs: dict[str, float]
     strong_negative_pairs: dict[str, float]
 
+
 @dataclass(slots=True)
 class InsightSummary:
     """
@@ -105,4 +110,4 @@ class InsightSummary:
     """
 
     insights: list[str]
-    recommendations: list[str]    
+    recommendations: list[str]

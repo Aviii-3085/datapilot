@@ -1,5 +1,5 @@
 """
-Tests for dataset health assessment.
+Tests for Datapilot v0.4 Dataset Health assessment.
 """
 
 import pandas as pd
@@ -13,20 +13,39 @@ def test_generate_dataset_health(
     sample_dataframe,
 ) -> None:
     """
-    Test dataset health assessment.
+    Test the v0.4 Dataset Health structure and scoring.
     """
 
     health = generate_dataset_health(
         sample_dataframe
     )
 
-    assert health.score == 85
-    assert health.grade == "B"
-    assert health.status == "Good"
-    assert health.ml_ready is False
+    assert 0 <= health.score <= 100
+
+    assert health.completeness_score < 100
+    assert health.duplicate_score < 100
+    assert health.structure_score == 100
+    assert health.consistency_score == 100
+
+    assert health.grade in {
+        "A",
+        "B",
+        "C",
+        "D",
+        "F",
+    }
+
+    assert health.status in {
+        "Excellent",
+        "Good",
+        "Moderate",
+        "Needs Attention",
+        "Poor",
+    }
 
     assert health.strengths == [
-        "All columns have recognized data types."
+        "All columns have recognized data types.",
+        "No completely empty columns detected.",
     ]
 
     assert health.weaknesses == [
@@ -35,15 +54,15 @@ def test_generate_dataset_health(
     ]
 
     assert health.recommendations == [
-        "Handle missing values before further analysis.",
-        "Remove duplicate rows.",
+        "Review missing values before further analysis.",
+        "Review duplicate rows before modelling or aggregation.",
     ]
 
 
-def test_healthy_dataset_is_ml_ready() -> None:
+def test_clean_dataset_has_perfect_health() -> None:
     """
-    A clean dataset should receive an excellent health score
-    and be considered ML-ready.
+    A clean, structurally valid dataset should receive a perfect
+    Dataset Health score.
     """
 
     dataframe = pd.DataFrame(
@@ -57,16 +76,19 @@ def test_healthy_dataset_is_ml_ready() -> None:
         dataframe
     )
 
-    assert health.score == 100
-    assert health.grade == "A+"
+    assert health.score == 100.0
+    assert health.grade == "A"
     assert health.status == "Excellent"
-    assert health.ml_ready is True
+
+    assert health.completeness_score == 100.0
+    assert health.duplicate_score == 100.0
+    assert health.structure_score == 100.0
+    assert health.consistency_score == 100.0
 
 
-def test_missing_values_reduce_health_score() -> None:
+def test_missing_values_reduce_completeness_score() -> None:
     """
-    Missing values should reduce the health score
-    and prevent ML readiness.
+    Missing values should reduce the Completeness score.
     """
 
     dataframe = pd.DataFrame(
@@ -80,17 +102,19 @@ def test_missing_values_reduce_health_score() -> None:
         dataframe
     )
 
-    assert health.score < 100
-    assert health.ml_ready is False
+    assert health.completeness_score < 100
+    assert health.duplicate_score == 100.0
+    assert health.structure_score == 100.0
+    assert health.consistency_score == 100.0
+
     assert health.weaknesses == [
         "2 missing values detected.",
     ]
 
 
-def test_duplicate_rows_reduce_health_score() -> None:
+def test_duplicate_rows_reduce_duplicate_score() -> None:
     """
-    Duplicate rows should reduce the health score
-    and prevent ML readiness.
+    Duplicate rows should reduce the Duplicate score.
     """
 
     dataframe = pd.DataFrame(
@@ -104,16 +128,20 @@ def test_duplicate_rows_reduce_health_score() -> None:
         dataframe
     )
 
-    assert health.score < 100
-    assert health.ml_ready is False
+    assert health.completeness_score == 100.0
+    assert health.duplicate_score < 100
+    assert health.structure_score == 100.0
+    assert health.consistency_score == 100.0
+
     assert health.weaknesses == [
         "1 duplicate rows detected.",
     ]
 
 
-def test_missing_and_duplicates_can_make_dataset_not_ml_ready() -> None:
+def test_completely_missing_dataset_has_zero_completeness() -> None:
     """
-    Severe data-quality problems should prevent ML readiness.
+    A dataset containing only missing values should receive a zero
+    Completeness score.
     """
 
     dataframe = pd.DataFrame(
@@ -127,20 +155,23 @@ def test_missing_and_duplicates_can_make_dataset_not_ml_ready() -> None:
         dataframe
     )
 
-    assert health.score < 85
-    assert health.ml_ready is False
-    assert health.score >= 0
-    assert health.score <= 100
+    assert health.completeness_score == 0.0
+    assert health.duplicate_score == 10.0
+    assert health.structure_score == 50.0
+    assert health.consistency_score == 100.0
 
-def test_high_column_missingness_prevents_ml_readiness() -> None:
+    assert 0 <= health.score <= 100
+
+
+def test_constant_column_reduces_structure_score() -> None:
     """
-    A severely incomplete column should prevent ML readiness.
+    Constant columns should produce a structural penalty.
     """
 
     dataframe = pd.DataFrame(
         {
             "Age": [20, 21, 22, 23, 24],
-            "Cabin": [None, None, None, None, "A1"],
+            "Constant": [1, 1, 1, 1, 1],
         }
     )
 
@@ -148,18 +179,21 @@ def test_high_column_missingness_prevents_ml_readiness() -> None:
         dataframe
     )
 
-    assert health.ml_ready is False
+    assert health.completeness_score == 100.0
+    assert health.duplicate_score == 100.0
+    assert health.structure_score < 100.0
+    assert health.consistency_score == 100.0
 
-def test_titanic_like_missingness_prevents_ml_readiness() -> None:
+
+def test_completely_empty_column_reduces_structure_score() -> None:
     """
-    A dataset with one highly incomplete column and another
-    substantially incomplete column should not be ML-ready.
+    Completely empty columns should produce a structural penalty.
     """
 
     dataframe = pd.DataFrame(
         {
-            "Age": [20, None, 22, 23, None],
-            "Cabin": [None, None, None, None, "A1"],
+            "Age": [20, 21, 22, 23, 24],
+            "Empty": [None, None, None, None, None],
         }
     )
 
@@ -167,4 +201,38 @@ def test_titanic_like_missingness_prevents_ml_readiness() -> None:
         dataframe
     )
 
-    assert health.ml_ready is False
+    assert health.completeness_score == 50.0
+    assert health.structure_score < 100.0
+    assert health.consistency_score == 100.0
+
+    assert any(
+        "completely empty columns" in weakness
+        for weakness in health.weaknesses
+    )
+
+
+def test_health_score_uses_documented_dimension_weights() -> None:
+    """
+    Verify the documented 30/20/25/25 weighting.
+    """
+
+    dataframe = pd.DataFrame(
+        {
+            "Age": [20, None, 22, 23],
+            "Salary": [100, 200, None, 400],
+        }
+    )
+
+    health = generate_dataset_health(
+        dataframe
+    )
+
+    expected = round(
+        health.completeness_score * 0.30
+        + health.duplicate_score * 0.20
+        + health.structure_score * 0.25
+        + health.consistency_score * 0.25,
+        2,
+    )
+
+    assert health.score == expected

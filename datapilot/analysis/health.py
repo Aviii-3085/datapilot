@@ -1,5 +1,5 @@
 """
-Dataset health assessment for Datapilot.
+Dataset health assessment for Datapilot v0.4.
 """
 
 import pandas as pd
@@ -10,32 +10,71 @@ from .missing import generate_missing_value_summary
 from .models import DatasetHealth
 
 
+def _grade_and_status(score: float) -> tuple[str, str]:
+    """Return the qualitative grade and status for a health score."""
+    if score >= 90:
+        return "A", "Excellent"
+
+    if score >= 75:
+        return "B", "Good"
+
+    if score >= 60:
+        return "C", "Moderate"
+
+    if score >= 40:
+        return "D", "Needs Attention"
+
+    return "F", "Poor"
+
+
 def generate_dataset_health(
     dataframe: pd.DataFrame,
 ) -> DatasetHealth:
     """
-    Generate an overall health assessment for a dataset.
+    Generate the v0.4 Dataset Health assessment.
+
+    Dataset Health consists of:
+
+    - Completeness: 30%
+    - Duplicates: 20%
+    - Structure: 25%
+    - Consistency: 25%
+
+    Only objectively measurable signals are used.
     """
 
     missing = generate_missing_value_summary(dataframe)
     duplicates = generate_duplicate_summary(dataframe)
     data_types = generate_data_type_summary(dataframe)
 
-    score = 100.0
+    # ------------------------------------------------------------------
+    # Completeness
+    # ------------------------------------------------------------------
 
-    # -----------------------------
-    # Missing Value Penalty (40 pts)
-    # -----------------------------
-    score -= (missing.missing_percentage / 100) * 40
+    completeness_score = max(
+        0.0,
+        min(
+            100.0,
+            100.0 - missing.missing_percentage,
+        ),
+    )
 
-    # -----------------------------
-    # Duplicate Penalty (35 pts)
-    # -----------------------------
-    score -= (duplicates.duplicate_percentage / 100) * 35
+    # ------------------------------------------------------------------
+    # Duplicates
+    # ------------------------------------------------------------------
 
-    # -----------------------------
-    # Structure Penalty (25 pts)
-    # -----------------------------
+    duplicate_score = max(
+        0.0,
+        min(
+            100.0,
+            100.0 - duplicates.duplicate_percentage,
+        ),
+    )
+
+    # ------------------------------------------------------------------
+    # Structure
+    # ------------------------------------------------------------------
+
     total_columns = len(dataframe.columns)
 
     recognized_columns = (
@@ -45,72 +84,129 @@ def generate_dataset_health(
         + len(data_types.datetime_columns)
     )
 
-    unrecognized_columns = max(
-        total_columns - recognized_columns,
-        0,
+    recognized_columns = min(
+        recognized_columns,
+        total_columns,
     )
 
-    if total_columns > 0:
-        score -= (
-            unrecognized_columns / total_columns
-        ) * 25
-
-    score = max(0, min(100, round(score)))
-
-    # -----------------------------
-    # Grade
-    # -----------------------------
-    if score >= 95:
-        grade = "A+"
-        status = "Excellent"
-
-    elif score >= 90:
-        grade = "A"
-        status = "Healthy"
-
-    elif score >= 80:
-        grade = "B"
-        status = "Good"
-
-    elif score >= 70:
-        grade = "C"
-        status = "Fair"
-
-    elif score >= 60:
-        grade = "D"
-        status = "Poor"
-
+    if total_columns == 0:
+        type_recognition_score = 0.0
+        empty_column_score = 0.0
+        constant_column_score = 0.0
     else:
-        grade = "F"
-        status = "Critical"
+        type_recognition_score = (
+            recognized_columns / total_columns
+        ) * 100.0
 
-    # -----------------------------
-    # ML Readiness
-    # -----------------------------
-    ml_ready = (
-        score >= 85
-        and missing.missing_percentage <= 20
-        and duplicates.duplicate_percentage <= 5
+        empty_columns = int(
+            dataframe.isna().all(axis=0).sum()
+        )
+
+        empty_column_rate = (
+            empty_columns / total_columns
+        ) * 100.0
+
+        empty_column_score = (
+            100.0 - empty_column_rate
+        )
+
+        constant_columns = 0
+
+        for column in dataframe.columns:
+            if dataframe[column].nunique(
+                dropna=False
+            ) <= 1:
+                constant_columns += 1
+
+        constant_column_rate = (
+            constant_columns / total_columns
+        ) * 100.0
+
+        constant_column_score = (
+            100.0 - constant_column_rate
+        )
+
+    structure_score = (
+        type_recognition_score * 0.50
+        + empty_column_score * 0.25
+        + constant_column_score * 0.25
     )
 
-    # -----------------------------
+    structure_score = max(
+        0.0,
+        min(100.0, structure_score),
+    )
+
+    # ------------------------------------------------------------------
+    # Consistency
+    # ------------------------------------------------------------------
+    #
+    # v0.4 currently has no objectively defined consistency metric
+    # implemented in the analysis layer.
+    #
+    # Therefore consistency is neutral until its metric specification
+    # is finalized. This prevents an unsupported penalty from being
+    # introduced into Dataset Health.
+    #
+
+    consistency_score = 100.0
+
+    # ------------------------------------------------------------------
+    # Overall score
+    # ------------------------------------------------------------------
+
+    score = (
+        completeness_score * 0.30
+        + duplicate_score * 0.20
+        + structure_score * 0.25
+        + consistency_score * 0.25
+    )
+
+    score = max(
+        0.0,
+        min(100.0, score),
+    )
+
+    score = round(score, 2)
+
+    grade, status = _grade_and_status(score)
+
+    # ------------------------------------------------------------------
     # Strengths
-    # -----------------------------
-    strengths = []
+    # ------------------------------------------------------------------
+
+    strengths: list[str] = []
 
     if missing.total_missing == 0:
-        strengths.append("No missing values detected.")
+        strengths.append(
+            "No missing values detected."
+        )
 
     if duplicates.total_duplicates == 0:
-        strengths.append("No duplicate rows detected.")
+        strengths.append(
+            "No duplicate rows detected."
+        )
 
-    if unrecognized_columns == 0:
-        strengths.append("All columns have recognized data types.")
+    if recognized_columns == total_columns:
+        strengths.append(
+            "All columns have recognized data types."
+        )
 
-    # -----------------------------
+    if total_columns > 0:
+        empty_columns = int(
+            dataframe.isna().all(axis=0).sum()
+        )
+
+        if empty_columns == 0:
+            strengths.append(
+                "No completely empty columns detected."
+            )
+
+    # ------------------------------------------------------------------
     # Weaknesses
-    # -----------------------------
-    weaknesses = []
+    # ------------------------------------------------------------------
+
+    weaknesses: list[str] = []
 
     if missing.total_missing > 0:
         weaknesses.append(
@@ -122,24 +218,41 @@ def generate_dataset_health(
             f"{duplicates.total_duplicates} duplicate rows detected."
         )
 
+    unrecognized_columns = max(
+        total_columns - recognized_columns,
+        0,
+    )
+
     if unrecognized_columns > 0:
         weaknesses.append(
-            f"{unrecognized_columns} columns have unsupported data types."
+            f"{unrecognized_columns} columns have unsupported "
+            "data types."
         )
 
-    # -----------------------------
+    if total_columns > 0:
+        empty_columns = int(
+            dataframe.isna().all(axis=0).sum()
+        )
+
+        if empty_columns > 0:
+            weaknesses.append(
+                f"{empty_columns} completely empty columns detected."
+            )
+
+    # ------------------------------------------------------------------
     # Recommendations
-    # -----------------------------
-    recommendations = []
+    # ------------------------------------------------------------------
+
+    recommendations: list[str] = []
 
     if missing.missing_percentage > 0:
         recommendations.append(
-            "Handle missing values before further analysis."
+            "Review missing values before further analysis."
         )
 
     if duplicates.total_duplicates > 0:
         recommendations.append(
-            "Remove duplicate rows."
+            "Review duplicate rows before modelling or aggregation."
         )
 
     if unrecognized_columns > 0:
@@ -149,14 +262,29 @@ def generate_dataset_health(
 
     if not recommendations:
         recommendations.append(
-            "Dataset is ready for analysis."
+            "No major structural data-quality issues detected."
         )
 
     return DatasetHealth(
         score=score,
         grade=grade,
         status=status,
-        ml_ready=ml_ready,
+        completeness_score=round(
+            completeness_score,
+            2,
+        ),
+        duplicate_score=round(
+            duplicate_score,
+            2,
+        ),
+        structure_score=round(
+            structure_score,
+            2,
+        ),
+        consistency_score=round(
+            consistency_score,
+            2,
+        ),
         strengths=strengths,
         weaknesses=weaknesses,
         recommendations=recommendations,
