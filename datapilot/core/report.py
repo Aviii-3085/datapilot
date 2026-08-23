@@ -25,13 +25,16 @@ from ..analysis.models import (
     DataTypeSummary,
     DuplicateSummary,
     InsightSummary,
-    MissingValueSummary,
     MLReadiness,
+    MissingValueSummary,
     OutlierSummary,
     StatisticsSummary,
 )
 from ..analysis.outliers import generate_outlier_summary
 from ..analysis.statistics import generate_statistics_summary
+from ..analysis.statistical_profile import (
+    generate_statistical_profile,
+)
 from ..analysis.summary import generate_summary
 
 
@@ -154,8 +157,10 @@ class Report:
         """
 
         if self._ml_readiness is None:
-            self._ml_readiness = generate_ml_readiness(
-                self._df
+            self._ml_readiness = (
+                generate_ml_readiness(
+                    self._df
+                )
             )
 
         return self._ml_readiness
@@ -175,6 +180,17 @@ class Report:
             )
 
         return self._statistics
+
+    def statistical_profile(
+        self,
+    ) -> dict[str, dict[str, str | float]]:
+        """
+        Return contextual statistical interpretations.
+        """
+
+        return generate_statistical_profile(
+            self._df
+        )
 
     def outliers(
         self,
