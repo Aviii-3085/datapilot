@@ -67,3 +67,8 @@ report.html
 release-test/
 release-test-2/
 validation/
+
+# Real-world validation artifacts
+real-data-test/*.xlsx
+real-data-test/*.zip
+real-data-test/*_report.html
