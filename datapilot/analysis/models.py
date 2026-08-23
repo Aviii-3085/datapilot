@@ -111,6 +111,22 @@ class OutlierSummary:
     columns_with_outliers: dict[str, int]
     columns_without_outliers: list[str]
 
+@dataclass(slots=True)
+class DataIntegritySummary:
+    """
+    Summary of observable data-integrity signals.
+
+    Signals indicate conditions that may deserve review.
+    They do not establish factual invalidity.
+    """
+
+    missing_value_columns: list[str]
+    duplicate_rows: int
+    outlier_columns: list[str]
+    identifier_like_columns: list[str]
+    constant_columns: list[str]
+    empty_columns: list[str]
+    structural_signals: list[str]
 
 @dataclass(slots=True)
 class CorrelationSummary:

@@ -29,6 +29,7 @@ from ..analysis.models import (
     MissingValueSummary,
     OutlierSummary,
     StatisticsSummary,
+    DataIntegritySummary,
 )
 from ..analysis.outliers import generate_outlier_summary
 from ..analysis.statistics import generate_statistics_summary
@@ -36,6 +37,10 @@ from ..analysis.statistical_profile import (
     generate_statistical_profile,
 )
 from ..analysis.summary import generate_summary
+from ..analysis.data_integrity import (
+    generate_data_integrity_summary,
+)
+
 
 
 class Report:
@@ -70,7 +75,7 @@ class Report:
         self._outliers: OutlierSummary | None = None
         self._correlation: CorrelationSummary | None = None
         self._insights: InsightSummary | None = None
-
+        self._data_integrity: DataIntegritySummary | None = None
     def summary(
         self,
     ) -> DatasetSummary:
@@ -164,6 +169,22 @@ class Report:
             )
 
         return self._ml_readiness
+
+    def data_integrity(
+        self,
+    ) -> DataIntegritySummary:
+        """
+        Return observable data-integrity signals.
+        """
+
+        if self._data_integrity is None:
+            self._data_integrity = (
+                generate_data_integrity_summary(
+                    self._df
+                )
+            )
+
+        return self._data_integrity
 
     def statistics(
         self,
