@@ -80,6 +80,7 @@ class MLReadiness:
     """
 
     score: float | None
+    assessment_coverage: float
     status: str
     completeness_score: float
     feature_quality_score: float

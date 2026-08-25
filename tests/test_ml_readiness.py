@@ -138,12 +138,17 @@ def test_ml_score_uses_documented_weights() -> None:
     )
 
     expected = round(
-        readiness.completeness_score * 0.25
-        + readiness.feature_quality_score * 0.20
-        + readiness.data_stability_score * 0.20
-        + readiness.consistency_score * 0.15
-        + readiness.distribution_score * 0.20,
+        (
+            readiness.completeness_score * 0.25
+            + readiness.feature_quality_score * 0.20
+            + readiness.data_stability_score * 0.15
+            + readiness.consistency_score * 0.15
+            + readiness.distribution_score * 0.15
+        )
+        / 0.90,
         2,
     )
 
     assert readiness.score == expected
+    assert readiness.assessment_coverage == 90.0
+    assert readiness.target_readiness == "NOT ASSESSED"

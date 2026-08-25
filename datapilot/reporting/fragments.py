@@ -397,6 +397,10 @@ def build_ml_readiness(
         readiness.target_readiness
     )
 
+    assessment_coverage = (
+        f"{readiness.assessment_coverage:.2f}%"
+    )
+
     return f"""
 <div class="card card-pad">
 
@@ -458,6 +462,13 @@ def build_ml_readiness(
     </div>
 
     <div class="pill-grid" style="margin-top: var(--sp-6);">
+
+        <div class="pill-card">
+            <div class="kpi-label">Assessment Coverage</div>
+            <div class="kpi-value">
+                {assessment_coverage}
+            </div>
+        </div>
 
         <div class="pill-card">
             <div class="kpi-label">Target Readiness</div>

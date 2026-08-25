@@ -18,10 +18,24 @@ def generate_ml_readiness(
     Target suitability is not assessed unless a target is explicitly
     supplied. The resulting score therefore represents preparation
     quality, not guaranteed model suitability.
+
+    Assessment coverage reflects only dimensions that were actually
+    assessed.
     """
 
     missing = generate_missing_value_summary(dataframe)
     data_types = generate_data_type_summary(dataframe)
+
+    # ---------------------------------------------------------------
+    # ML dimension weights
+    # ---------------------------------------------------------------
+
+    completeness_weight = 0.25
+    feature_quality_weight = 0.20
+    data_stability_weight = 0.15
+    consistency_weight = 0.15
+    distribution_weight = 0.15
+    target_readiness_weight = 0.10
 
     # ---------------------------------------------------------------
     # Completeness
@@ -126,20 +140,58 @@ def generate_ml_readiness(
 
     target_readiness = "NOT ASSESSED"
 
+    # Target readiness is not assessed because this API does not
+    # accept an explicit target variable yet.
+    #
+    # Per the v0.4 specification, an unassessed dimension must not
+    # be treated as zero and must not contribute to the score.
+
+    # ---------------------------------------------------------------
+    # Assessment coverage
+    # ---------------------------------------------------------------
+
+    assessed_weight = (
+        completeness_weight
+        + feature_quality_weight
+        + data_stability_weight
+        + consistency_weight
+        + distribution_weight
+    )
+
+    total_weight = (
+        completeness_weight
+        + feature_quality_weight
+        + data_stability_weight
+        + consistency_weight
+        + distribution_weight
+        + target_readiness_weight
+    )
+
+    assessment_coverage = (
+        assessed_weight / total_weight
+    ) * 100.0
+
     # ---------------------------------------------------------------
     # Overall preparation score
     # ---------------------------------------------------------------
 
-    score = (
-        completeness_score * 0.25
-        + feature_quality_score * 0.20
-        + data_stability_score * 0.20
-        + consistency_score * 0.15
-        + distribution_score * 0.20
+    weighted_score = (
+        completeness_score * completeness_weight
+        + feature_quality_score * feature_quality_weight
+        + data_stability_score * data_stability_weight
+        + consistency_score * consistency_weight
+        + distribution_score * distribution_weight
     )
+
+    score = weighted_score / assessed_weight
 
     score = round(
         max(0.0, min(100.0, score)),
+        2,
+    )
+
+    assessment_coverage = round(
+        max(0.0, min(100.0, assessment_coverage)),
         2,
     )
 
@@ -150,13 +202,13 @@ def generate_ml_readiness(
     if score >= 90:
         status = "Strong Preparation Signals"
     elif score >= 75:
-        status = "Good Preparation Signals"
+        status = "Generally Well Prepared"
     elif score >= 60:
-        status = "Moderate Preparation Signals"
+        status = "Moderate Preparation"
     elif score >= 40:
-        status = "Weak Preparation Signals"
+        status = "Significant Preparation Concerns"
     else:
-        status = "Poor Preparation Signals"
+        status = "Major Preparation Concerns"
 
     # ---------------------------------------------------------------
     # Strengths
@@ -246,6 +298,7 @@ def generate_ml_readiness(
 
     return MLReadiness(
         score=score,
+        assessment_coverage=assessment_coverage,
         status=status,
         completeness_score=round(
             completeness_score,
