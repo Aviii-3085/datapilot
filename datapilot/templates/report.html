@@ -57,13 +57,15 @@
       <li><a href="#executive-dashboard"><span class="rail-index">01</span>Executive Dashboard</a></li>
       <li><a href="#dataset-overview"><span class="rail-index">02</span>Dataset Overview</a></li>
       <li><a href="#dataset-health"><span class="rail-index">03</span>Dataset Health</a></li>
-      <li><a href="#missing-values"><span class="rail-index">04</span>Missing Values</a></li>
-      <li><a href="#duplicate-analysis"><span class="rail-index">05</span>Duplicate Analysis</a></li>
-      <li><a href="#statistics"><span class="rail-index">06</span>Statistics</a></li>
-      <li><a href="#outlier-analysis"><span class="rail-index">07</span>Outlier Analysis</a></li>
-      <li><a href="#correlation-analysis"><span class="rail-index">08</span>Correlation Analysis</a></li>
-      <li><a href="#insights"><span class="rail-index">09</span>Insights</a></li>
-      <li><a href="#recommendations"><span class="rail-index">10</span>Recommendations</a></li>
+      <li><a href="#ml-readiness"><span class="rail-index">04</span>ML Readiness</a></li>
+      <li><a href="#missing-values"><span class="rail-index">05</span>Missing Values</a></li>
+      <li><a href="#duplicate-analysis"><span class="rail-index">06</span>Duplicate Analysis</a></li>
+      <li><a href="#statistics"><span class="rail-index">07</span>Statistics</a></li>
+      <li><a href="#statistical-profile"><span class="rail-index">08</span>Statistical Profile</a></li>
+      <li><a href="#outlier-analysis"><span class="rail-index">09</span>Outlier Analysis</a></li>
+      <li><a href="#correlation-analysis"><span class="rail-index">10</span>Correlation Analysis</a></li>
+      <li><a href="#insights"><span class="rail-index">11</span>Insights</a></li>
+      <li><a href="#recommendations"><span class="rail-index">12</span>Recommendations</a></li>
     </ul>
 
     <!--
@@ -72,12 +74,11 @@
       <div class="dp-rail-divider"></div>
       <div class="dp-rail-group-label">Coming soon</div>
       <ul class="dp-rail-list">
-        <li><a href="#distribution-analysis"><span class="rail-index">11</span>Distribution Analysis</a></li>
-        <li><a href="#cardinality-analysis"><span class="rail-index">12</span>Cardinality Analysis</a></li>
-        <li><a href="#ml-readiness"><span class="rail-index">13</span>ML Readiness</a></li>
-        <li><a href="#data-drift"><span class="rail-index">14</span>Data Drift</a></li>
-        <li><a href="#feature-importance"><span class="rail-index">15</span>Feature Importance</a></li>
-        <li><a href="#export-metadata"><span class="rail-index">16</span>Export Metadata</a></li>
+        <li><a href="#distribution-analysis"><span class="rail-index">13</span>Distribution Analysis</a></li>
+        <li><a href="#cardinality-analysis"><span class="rail-index">14</span>Cardinality Analysis</a></li>
+        <li><a href="#data-drift"><span class="rail-index">15</span>Data Drift</a></li>
+        <li><a href="#feature-importance"><span class="rail-index">16</span>Feature Importance</a></li>
+        <li><a href="#export-metadata"><span class="rail-index">17</span>Export Metadata</a></li>
       </ul>
     -->
   </nav>
@@ -282,7 +283,26 @@
     </section>
 
     <!-- ======================================================================
-         04. MISSING VALUES
+         04. ML READINESS
+         ====================================================================== -->
+    <section class="report-section" id="ml-readiness">
+
+      <div class="report-section-head">
+        <div class="heading-block">
+          <div class="eyebrow">Machine Learning</div>
+          <h2 class="section-title">ML Readiness</h2>
+          <p class="section-subtitle">
+            Observable preparation signals for machine-learning workflows.
+          </p>
+        </div>
+      </div>
+
+      {{ML_READINESS}}
+
+    </section>
+
+    <!-- ======================================================================
+         05. MISSING VALUES
          ====================================================================== -->
     <section class="report-section" id="missing-values">
 
@@ -326,7 +346,7 @@
     </section>
 
     <!-- ======================================================================
-         05. DUPLICATE ANALYSIS
+         06. DUPLICATE ANALYSIS
          ====================================================================== -->
     <section class="report-section" id="duplicate-analysis">
 
@@ -369,7 +389,7 @@
     </section>
 
     <!-- ======================================================================
-         06. STATISTICS
+         07. STATISTICS
          ====================================================================== -->
     <section class="report-section" id="statistics">
 
@@ -413,7 +433,30 @@
     </section>
 
     <!-- ======================================================================
-         07. OUTLIER ANALYSIS
+         08. STATISTICAL PROFILE
+         ====================================================================== -->
+    <section class="report-section" id="statistical-profile">
+
+      <div class="report-section-head">
+
+        <div class="heading-block">
+          <div class="eyebrow">Distribution</div>
+          <h2 class="section-title">Statistical Profile</h2>
+          <p class="section-subtitle">
+            Contextual interpretations of numeric distributions.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="table-wrap">
+        {{STATISTICAL_PROFILE}}
+      </div>
+
+    </section>
+
+    <!-- ======================================================================
+         09. OUTLIER ANALYSIS
          ====================================================================== -->
     <section class="report-section" id="outlier-analysis">
 
@@ -436,7 +479,7 @@
     </section>
 
     <!-- ======================================================================
-         08. CORRELATION ANALYSIS
+         10. CORRELATION ANALYSIS
          ====================================================================== -->
     <section class="report-section" id="correlation-analysis">
 
@@ -457,13 +500,12 @@
         <table class="dp-table">
           {{CORRELATION_TABLE}}
         </table>
-
       </div>
 
     </section>
 
     <!-- ======================================================================
-         09. INSIGHTS
+         11. INSIGHTS
          ====================================================================== -->
     <section class="report-section" id="insights">
 
@@ -486,7 +528,7 @@
     </section>
 
     <!-- ======================================================================
-         10. RECOMMENDATIONS
+         12. RECOMMENDATIONS
          ====================================================================== -->
     <section class="report-section" id="recommendations">
 

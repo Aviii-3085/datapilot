@@ -327,3 +327,225 @@ def build_insight_recommendations(
     rows.append("</ul>")
 
     return "\n".join(rows)
+
+
+def build_ml_readiness(
+    report: Report,
+) -> str:
+    """
+    Build ML readiness HTML.
+    """
+
+    readiness = report.ml_readiness()
+
+    score = (
+        f"{readiness.score:.2f}"
+        if readiness.score is not None
+        else "N/A"
+    )
+
+    score_width = (
+        max(min(readiness.score, 100.0), 0.0)
+        if readiness.score is not None
+        else 0.0
+    )
+
+    dimensions = [
+        (
+            "Completeness",
+            readiness.completeness_score,
+        ),
+        (
+            "Feature Quality",
+            readiness.feature_quality_score,
+        ),
+        (
+            "Data Stability",
+            readiness.data_stability_score,
+        ),
+        (
+            "Consistency",
+            readiness.consistency_score,
+        ),
+        (
+            "Distribution",
+            readiness.distribution_score,
+        ),
+    ]
+
+    dimension_rows: list[str] = []
+
+    for label, value in dimensions:
+        dimension_rows.append(
+            f"""
+<div class="progress-row">
+    <span class="progress-label">{label}</span>
+    <div class="progress-track">
+        <div
+            class="progress-fill"
+            style="width: {value:.2f}%;"
+        ></div>
+    </div>
+    <span class="progress-value numeral">
+        {value:.2f}/100
+    </span>
+</div>
+"""
+        )
+
+    target_status = (
+        readiness.target_readiness
+    )
+
+    return f"""
+<div class="card card-pad">
+
+    <div class="health-hero">
+
+        <div class="kpi-card">
+            <div class="kpi-label">ML Readiness</div>
+            <div class="kpi-value">
+                {score}<span class="kpi-unit">/100</span>
+            </div>
+            <div class="kpi-sub">
+                {readiness.status}
+            </div>
+        </div>
+
+        <div class="health-hero-body">
+
+            <div class="health-hero-top">
+                <div class="health-hero-title">
+                    Preparation signals for machine learning
+                </div>
+
+                <span class="badge badge--grade">
+                    {readiness.status}
+                </span>
+            </div>
+
+            <p class="section-subtitle mt-0">
+                This score represents observable preparation
+                signals. It does not guarantee that a successful
+                ML model can be trained.
+            </p>
+
+            <div class="progress-row">
+                <span class="progress-label">
+                    Overall score
+                </span>
+
+                <div class="progress-track">
+                    <div
+                        class="progress-fill"
+                        style="width: {score_width:.2f}%;"
+                    ></div>
+                </div>
+
+                <span class="progress-value numeral">
+                    {score}/100
+                </span>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div style="margin-top: var(--sp-6);">
+        <h4>Readiness dimensions</h4>
+
+        {"".join(dimension_rows)}
+    </div>
+
+    <div class="pill-grid" style="margin-top: var(--sp-6);">
+
+        <div class="pill-card">
+            <div class="kpi-label">Target Readiness</div>
+            <div class="kpi-value">
+                {target_status}
+            </div>
+        </div>
+
+    </div>
+
+    <div class="trait-columns" style="margin-top: var(--sp-6);">
+
+        <div>
+            <h4>Strengths</h4>
+
+            <div class="trait-list trait-list--strength">
+                {build_html_list(readiness.strengths)}
+            </div>
+        </div>
+
+        <div>
+            <h4>Weaknesses</h4>
+
+            <div class="trait-list trait-list--weakness">
+                {build_html_list(readiness.weaknesses)}
+            </div>
+        </div>
+
+    </div>
+
+    <div style="margin-top: var(--sp-6);">
+
+        <h4>Recommendations</h4>
+
+        <div class="trait-list">
+            {build_html_list(readiness.recommendations)}
+        </div>
+
+    </div>
+
+</div>
+"""
+
+def build_statistical_profile(
+    report: Report,
+) -> str:
+    """
+    Build contextual statistical profile HTML.
+    """
+
+    profile = report.statistical_profile()
+
+    if not profile:
+        return (
+            "<p>No numeric columns were available "
+            "for statistical interpretation.</p>"
+        )
+
+    rows: list[str] = []
+
+    for column, values in profile.items():
+        rows.append(
+            f"""
+<tr>
+    <td>{column}</td>
+    <td>{values["skewness"]:.2f}</td>
+    <td>{values["skewness_interpretation"]}</td>
+    <td>{values["kurtosis"]:.2f}</td>
+    <td>{values["kurtosis_interpretation"]}</td>
+    <td>{values["outlier_signal"]}</td>
+</tr>
+"""
+        )
+
+    return f"""
+<table class="report-table">
+    <thead>
+        <tr>
+            <th>Column</th>
+            <th>Skewness</th>
+            <th>Skewness Interpretation</th>
+            <th>Kurtosis</th>
+            <th>Kurtosis Interpretation</th>
+            <th>Outlier Signal</th>
+        </tr>
+    </thead>
+    <tbody>
+        {"".join(rows)}
+    </tbody>
+</table>
+"""

@@ -17,6 +17,8 @@ from .fragments import (
     build_missing_table,
     build_outlier_cards,
     build_statistics_table,
+    build_statistical_profile,
+    build_ml_readiness,
 )
 
 DATAPILOT_VERSION = "0.3.0"
@@ -108,6 +110,9 @@ def build_placeholders(
         "{{HEALTH_SUMMARY}}": (
             build_health_summary(report)
         ),
+        "{{ML_READINESS}}": (
+            build_ml_readiness(report)
+       ),
 
         "{{STRENGTHS_LIST}}": (
             build_html_list(
@@ -148,7 +153,9 @@ def build_placeholders(
         "{{STATISTICS_TABLE}}": (
             build_statistics_table(report)
         ),
-
+        "{{STATISTICAL_PROFILE}}": (
+            build_statistical_profile(report)
+        ),
         "{{OUTLIER_CARDS}}": (
             build_outlier_cards(report)
         ),
