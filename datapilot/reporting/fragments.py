@@ -560,3 +560,62 @@ def build_statistical_profile(
     </tbody>
 </table>
 """
+def build_assessment_boundaries(
+    report: Report,
+) -> str:
+    """
+    Build the evidence-boundary explanation for the HTML report.
+
+    The categories describe how Datapilot treats evidence:
+    observed, calculated, interpreted, and not assessed.
+    """
+
+    return """
+<div class="trait-columns">
+
+    <div>
+        <h4>Observed</h4>
+        <p>
+            Directly measured properties such as row count,
+            missing values, duplicate count, column types,
+            outlier count, and correlation coefficients.
+        </p>
+    </div>
+
+    <div>
+        <h4>Calculated</h4>
+        <p>
+            Metrics derived from observations such as
+            missingness percentage, duplicate percentage,
+            dimension scores, overall scores, and assessment
+            coverage.
+        </p>
+    </div>
+
+</div>
+
+<div class="trait-columns" style="margin-top: var(--sp-6);">
+
+    <div>
+        <h4>Interpreted</h4>
+        <p>
+            Statistical or analytical interpretations such as
+            missingness concentration, skewness, distribution
+            signals, and potential feature preparation concerns.
+            Interpretations remain bounded by available evidence.
+        </p>
+    </div>
+
+    <div>
+        <h4>Not Assessed</h4>
+        <p>
+            Properties Datapilot cannot responsibly determine
+            from the available information, such as target
+            suitability without a target, drift without reference
+            data, business validity, causal validity, or model
+            performance.
+        </p>
+    </div>
+
+</div>
+"""

@@ -7,6 +7,7 @@ from datetime import datetime
 from datapilot.core.report import Report
 
 from .fragments import (
+    build_assessment_boundaries,
     build_column_name_chips,
     build_correlation_table,
     build_health_headline,
@@ -15,11 +16,12 @@ from .fragments import (
     build_insight_recommendations,
     build_insights,
     build_missing_table,
+    build_ml_readiness,
     build_outlier_cards,
     build_statistics_table,
     build_statistical_profile,
-    build_ml_readiness,
 )
+
 
 DATAPILOT_VERSION = "0.3.0"
 
@@ -103,16 +105,16 @@ def build_placeholders(
         "{{HEALTH_SCORE}}": str(health.score),
         "{{GRADE}}": health.grade,
         "{{HEALTH_STATUS}}": health.status,
-
         "{{HEALTH_HEADLINE}}": (
             build_health_headline(report)
         ),
         "{{HEALTH_SUMMARY}}": (
             build_health_summary(report)
         ),
+
         "{{ML_READINESS}}": (
             build_ml_readiness(report)
-       ),
+        ),
 
         "{{STRENGTHS_LIST}}": (
             build_html_list(
@@ -156,6 +158,7 @@ def build_placeholders(
         "{{STATISTICAL_PROFILE}}": (
             build_statistical_profile(report)
         ),
+
         "{{OUTLIER_CARDS}}": (
             build_outlier_cards(report)
         ),
@@ -170,6 +173,10 @@ def build_placeholders(
 
         "{{RECOMMENDATIONS}}": (
             build_insight_recommendations(report)
+        ),
+
+        "{{ASSESSMENT_BOUNDARIES}}": (
+            build_assessment_boundaries(report)
         ),
 
         "{{DUPLICATE_ROWS_COUNT}}": str(
