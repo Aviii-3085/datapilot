@@ -78,13 +78,21 @@ Project documentation is available in the `docs/` directory.
 
 ## Status
 
-**Datapilot v0.3.0 — Stable Release**
+**Datapilot v0.4.0 — Stable Release**
 
-Datapilot is now available on PyPI as **`datapilot-kit`**.
+Datapilot v0.4.0 extends the core data-quality workflow with:
 
-This is the first stable release of Datapilot.
+- Dataset Health 2.0
+- ML Readiness assessment
+- ML assessment coverage
+- Statistical Profile
+- Data Integrity signals
+- Notebook Readiness
+- Assessment Boundaries
+- Expanded HTML reporting
+- Real-world dataset validation
 
----
+The package is available on PyPI as **`datapilot-kit`**.
 
 ## License
 

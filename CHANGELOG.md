@@ -53,6 +53,28 @@ The format is inspired by **Keep a Changelog**, and the project follows Semantic
 
 ---
 
+## [0.4.0]
+
+### Added
+
+- Dataset Health 2.0 assessment with completeness, duplicates, structure, and consistency dimensions.
+- ML Readiness assessment with preparation-level scoring and dimension-level signals.
+- ML assessment coverage for dimensions that cannot be assessed from available information.
+- Statistical Profile reporting with contextual skewness, kurtosis, and outlier interpretations.
+- Data Integrity signals for observable dataset-quality concerns.
+- Notebook Readiness assessment.
+- Assessment Boundaries reporting distinguishing observed, calculated, interpreted, and not-assessed information.
+- HTML report sections for ML Readiness, Statistical Profile, and Assessment Boundaries.
+- Real-world validation using the Online Retail II dataset.
+- Expanded v0.4 test coverage.
+
+### Changed
+
+- ML preparation scores exclude Not Assessed dimensions from the numerical score.
+- HTML report version metadata is now `0.4.0`.
+
+---
+
 ## [0.1.0-alpha]
 
 ### Added

@@ -34,7 +34,7 @@ def test_generate_html_report(
     )
 
     print("\n--- HTML REPORT DEBUG ---")
-    print("Version present:", "0.3.0" in html)
+    print("Version present:", "0.4.0" in html)
     print(
         "Duration placeholder present:",
         "{{GENERATION_DURATION}}" in html,
@@ -58,7 +58,7 @@ def test_generate_html_report(
     assert "1" in html
     assert "12.5%" in html
 
-    assert "0.3.0" in html
+    assert "0.4.0" in html
 
     assert "{{GENERATION_DURATION}}" not in html
     assert "{{DUPLICATE_GROUPS_COUNT}}" not in html
