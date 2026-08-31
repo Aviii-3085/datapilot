@@ -8,6 +8,7 @@ from .datatype import generate_data_type_summary
 from .duplicate import generate_duplicate_summary
 from .missing import generate_missing_value_summary
 from .models import DatasetHealth
+from .scoring import degradation_score
 
 
 def _grade_and_status(score: float) -> tuple[str, str]:
@@ -51,25 +52,17 @@ def generate_dataset_health(
     # Completeness
     # ------------------------------------------------------------------
 
-    completeness_score = max(
-        0.0,
-        min(
-            100.0,
-            100.0 - missing.missing_percentage,
-        ),
+    completeness_score = degradation_score(
+       missing.missing_percentage,
     )
 
     # ------------------------------------------------------------------
     # Duplicates
     # ------------------------------------------------------------------
 
-    duplicate_score = max(
-        0.0,
-        min(
-            100.0,
-            100.0 - duplicates.duplicate_percentage,
-        ),
-    )
+    duplicate_score = degradation_score(
+        duplicates.duplicate_percentage,
+   )
 
     # ------------------------------------------------------------------
     # Structure

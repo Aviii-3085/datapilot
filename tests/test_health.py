@@ -156,7 +156,7 @@ def test_completely_missing_dataset_has_zero_completeness() -> None:
     )
 
     assert health.completeness_score == 0.0
-    assert health.duplicate_score == 10.0
+    assert health.duplicate_score == 6.31
     assert health.structure_score == 50.0
     assert health.consistency_score == 100.0
 
@@ -201,7 +201,7 @@ def test_completely_empty_column_reduces_structure_score() -> None:
         dataframe
     )
 
-    assert health.completeness_score == 50.0
+    assert health.completeness_score == 43.53
     assert health.structure_score < 100.0
     assert health.consistency_score == 100.0
 
@@ -236,3 +236,37 @@ def test_health_score_uses_documented_dimension_weights() -> None:
     )
 
     assert health.score == expected
+
+def test_completeness_score_follows_nonlinear_degradation_curve() -> None:
+    """
+    Completeness should use the v0.4.1 nonlinear degradation curve.
+    """
+
+    dataframe = pd.DataFrame(
+        {
+            "Value": [None] * 10 + list(range(90)),
+        }
+    )
+
+    health = generate_dataset_health(
+        dataframe
+    )
+
+    assert health.completeness_score == 88.12
+
+def test_duplicate_score_follows_nonlinear_degradation_curve() -> None:
+    """
+    Duplicate scoring should use the v0.4.1 nonlinear degradation curve.
+    """
+
+    dataframe = pd.DataFrame(
+        {
+            "Value": list(range(90)) + [0] * 10,
+        }
+    )
+
+    health = generate_dataset_health(
+        dataframe
+    )
+
+    assert health.duplicate_score == 88.12        
