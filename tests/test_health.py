@@ -44,10 +44,10 @@ def test_generate_dataset_health(
     }
 
     assert health.strengths == [
+        "No mixed underlying value types detected.",
         "All columns have recognized data types.",
         "No completely empty columns detected.",
     ]
-
     assert health.weaknesses == [
         "3 missing values detected.",
         "1 duplicate rows detected.",
@@ -269,4 +269,4 @@ def test_duplicate_score_follows_nonlinear_degradation_curve() -> None:
         dataframe
     )
 
-    assert health.duplicate_score == 88.12        
+    assert health.duplicate_score == 88.12

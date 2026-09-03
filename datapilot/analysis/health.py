@@ -5,6 +5,7 @@ Dataset health assessment for Datapilot v0.4.
 import pandas as pd
 
 from .datatype import generate_data_type_summary
+from .consistency import generate_consistency_summary
 from .duplicate import generate_duplicate_summary
 from .missing import generate_missing_value_summary
 from .models import DatasetHealth
@@ -47,6 +48,7 @@ def generate_dataset_health(
     missing = generate_missing_value_summary(dataframe)
     duplicates = generate_duplicate_summary(dataframe)
     data_types = generate_data_type_summary(dataframe)
+    consistency = generate_consistency_summary(dataframe)
 
     # ------------------------------------------------------------------
     # Completeness
@@ -133,16 +135,10 @@ def generate_dataset_health(
     # ------------------------------------------------------------------
     # Consistency
     # ------------------------------------------------------------------
-    #
-    # v0.4 currently has no objectively defined consistency metric
-    # implemented in the analysis layer.
-    #
-    # Therefore consistency is neutral until its metric specification
-    # is finalized. This prevents an unsupported penalty from being
-    # introduced into Dataset Health.
-    #
 
-    consistency_score = 100.0
+    consistency_score = degradation_score(
+        consistency.consistency_percentage,
+    )
 
     # ------------------------------------------------------------------
     # Overall score
@@ -178,6 +174,11 @@ def generate_dataset_health(
     if duplicates.total_duplicates == 0:
         strengths.append(
             "No duplicate rows detected."
+        )
+
+    if not consistency.inconsistent_columns:
+        strengths.append(
+            "No mixed underlying value types detected."
         )
 
     if recognized_columns == total_columns:
@@ -216,6 +217,11 @@ def generate_dataset_health(
         0,
     )
 
+    if consistency.inconsistent_columns:
+        weaknesses.append(
+            f"{len(consistency.inconsistent_columns)} columns contain mixed underlying value types."
+        )
+
     if unrecognized_columns > 0:
         weaknesses.append(
             f"{unrecognized_columns} columns have unsupported "
@@ -251,6 +257,11 @@ def generate_dataset_health(
     if unrecognized_columns > 0:
         recommendations.append(
             "Review unsupported column data types."
+        )
+
+    if consistency.inconsistent_columns:
+        recommendations.append(
+            "Review columns containing mixed underlying value types."
         )
 
     if not recommendations:

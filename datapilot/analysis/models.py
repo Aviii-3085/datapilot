@@ -163,3 +163,12 @@ class InsightSummary:
 
     insights: list[str]
     recommendations: list[str]
+@dataclass(slots=True)
+class ConsistencySummary:
+    """
+    Summary of objectively detectable consistency signals.
+    """
+
+    inconsistent_columns: list[str]
+    inconsistent_value_count: int
+    consistency_percentage: float
