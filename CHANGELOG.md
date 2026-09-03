@@ -53,6 +53,21 @@ The format is inspired by **Keep a Changelog**, and the project follows Semantic
 
 ---
 
+## [0.4.1]
+
+### Added
+
+- Deterministic consistency analysis for mixed underlying value types.
+- ConsistencySummary data model for consistency signals.
+- Consistency scoring integrated into Dataset Health.
+- Expanded Dataset Health tests covering consistency degradation.
+
+### Changed
+
+- Dataset Health consistency is now based on the proportion of non-missing values whose underlying type differs from the dominant type within their column.
+
+---
+
 ## [0.4.0]
 
 ### Added
